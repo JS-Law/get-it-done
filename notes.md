@@ -47,3 +47,40 @@ An application that displays user entered tasks in a grid that can be arranged b
 - Storing Task data    ***ABSTRACT***
 - Removing Task data   ***ABSTRACT***
 
+
+
+# Objects to abstract further
+---
+
+**ELEMENTS**
+
+Project                 -- Initialization
+
+Project                 -- View
+
+Project                 -- Addition
+
+Project                 -- Removal
+
+To do - Task            -- Initialization
+
+To do - Task            -- View
+
+To do - Task            -- Addition
+
+To do - Task            -- Removal
+
+
+**STORAGE**
+
+Task                    -- Store 
+
+Task                    -- Retrieve 
+
+Task                    -- Display
+
+Project                 -- Store
+
+Project                 -- Retrieve
+
+Project                 -- Display

@@ -62,6 +62,14 @@ Project                 -- Addition
 
 Project                 -- Removal
 
+- What properties should a project have?
+  1. Tasks
+  2. Name
+  3. Due Date
+  4. 
+
+
+
 To do - Task            -- Initialization
 
 To do - Task            -- View
@@ -70,6 +78,14 @@ To do - Task            -- Addition
 
 To do - Task            -- Removal
 
+- What properties does a task have?
+  1. Name
+  2. Due Date
+  3. Date Created
+  4. Priority
+  5. Description
+  6. Notes
+  7. Checklist
 
 **STORAGE**
 
@@ -84,3 +100,14 @@ Project                 -- Store
 Project                 -- Retrieve
 
 Project                 -- Display
+
+
+
+
+
+**FOR TOMORROW**
+- Create the ToDo list in the console first to ensure the logic is sound.
+- LOG EVERYTHING TO CONSOLE AND THEN REPLACE THE LOGS WITH THE DOM MANIPULATION
+- REMEMBER TO LOG ONLY PART OF THE OBJECT IF ITS RELEVANT
+- You may need to prompt for user input but thats okay, write a class for it!
+- I think I forgot how to request input in JavaScript lmao

@@ -1,38 +1,40 @@
-import './styles.css'
+// import './styles.css'
 
 // Project Classes
 
 class Project {
-    constructor(tasks, projectName, dueDate){
-        this.tasks = [];
+    #tasks; // Private field
+
+    constructor(projectName, dueDate){
+        this.#tasks = [];
         this.projectName = projectName;
         this.dueDate = dueDate;
     }
 
     addNewTask(taskObject){
-        
-        this.tasks.push(taskObject);
+        this.#tasks.push(taskObject);
     }
 
-    removeExistingProject(){
+    getTasks() {
+        return [...this.#tasks]; // Return a copy to prevent external modifications
+    }
 
+    removeTask(taskToRemove){
+        this.#tasks.pop(taskToRemove)
     }
 
     completeProject(){
-
+        // Implement project completion logic
     }
-    
-    
-    
 }
 
 function getUserInput(promptText){
     try {
-        let userInput = prompt(promptText)
-        return userInput
+        let userInput = prompt(promptText);
+        return userInput;
     } catch (error) {
-        error = 'Prompt not defined'
-        return error
+        console.error('Prompt not defined');
+        return 'Error';
     }
 }
 
@@ -54,9 +56,8 @@ function getTimestamp() {
 
 
 
-
 class Task {
-    constructor(name, dueDate, dateCreated, priority, description, notes, checkList){
+    constructor(name, dueDate, dateCreated, priority, description = '', notes = '', checkList = [], status){
         this.name = name;
         this.dueDate = dueDate;
         this.dateCreated = dateCreated;
@@ -64,31 +65,63 @@ class Task {
         this.description = description;
         this.notes = notes;
         this.checkList = checkList;
+        this.status = status;
     }
-
-    removeTask(taskToRemove){
-
+    addItemToCheckList(...itemsToAdd){
+        this.checkList.push(...itemsToAdd)
     }
-
-    completeTask(taskToComplete){
-
+    removeItemFromCheckList(...itemsToRemove){
+        this,this.checkList.pop(...itemsToRemove)
+    }
+    setStatusComplete(){
+        this.status = 'Complete';
+    }
+    setStatusInProgress(){
+        this.status = 'In Progress';
     }
 }
 
-let testProject = new Project();
+// Creating a new project and adding tasks
+let testProject = new Project('Project 1', '2023-12-31');
+
 let testTask = new Task(
-    getUserInput('Enter new task : '),
+    'Finish the thing 1',
     getTimestamp(),
     getTimestamp(),
-    'High'
+    'High',
+    'Go to the place to do the thing, NOW',
+    'Remember to do that thing',
+    [
+        'Go to place',
+        'Do that thing', 
+    ],
+    'Not Started'
+
+);
+let testTaskTwo = new Task(
+    'Finish the thing 2',
+    getTimestamp(),
+    getTimestamp(),
+    'High',
+    'Go to the place to do the thing, NOW',
+    'Remember to do that thing',
+    [
+        'Go to place',
+        'Do that thing', 
+    ]
 
 );
 
+testProject.addNewTask(testTask);
+testProject.addNewTask(testTaskTwo)
 
 
-testProject.addNewTask("some task")
-testProject.addNewTask("some task")
-testProject.addNewTask("another task")
+testTaskTwo.addItemToCheckList('something', 'else')
 
-console.log(testTask)
+console.log(testProject, testProject.getTasks())
 
+testProject.removeTask(testTask)
+console.log(testProject, testProject.getTasks())
+testTaskTwo.setStatusComplete()
+testTask.setStatusInProgress()
+console.log(testProject, testProject.getTasks())

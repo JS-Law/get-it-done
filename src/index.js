@@ -1,7 +1,3 @@
-// import './styles.css'
-
-// Project Classes
-
 class Project {
     #tasks; // Private field
 
@@ -20,7 +16,7 @@ class Project {
     }
 
     removeTask(taskToRemove){
-        this.#tasks.pop(taskToRemove)
+        this.#tasks = this.#tasks.filter(task => task !== taskToRemove);
     }
 
     completeProject(){
@@ -54,8 +50,6 @@ function getTimestamp() {
     return `${month}-${day}-${year} ${hours}:${minutes} ${ampm}`;
 }
 
-
-
 class Task {
     constructor(name, dueDate, dateCreated, priority, description = '', notes = '', checkList = [], status){
         this.name = name;
@@ -68,10 +62,15 @@ class Task {
         this.status = status;
     }
     addItemToCheckList(...itemsToAdd){
-        this.checkList.push(...itemsToAdd)
+        this.checkList.push(...itemsToAdd);
     }
     removeItemFromCheckList(...itemsToRemove){
-        this,this.checkList.pop(...itemsToRemove)
+        itemsToRemove.forEach(item => {
+            const index = this.checkList.indexOf(item);
+            if (index > -1) {
+                this.checkList.splice(index, 1);
+            }
+        });
     }
     setStatusComplete(){
         this.status = 'Complete';
@@ -96,8 +95,8 @@ let testTask = new Task(
         'Do that thing', 
     ],
     'Not Started'
-
 );
+
 let testTaskTwo = new Task(
     'Finish the thing 2',
     getTimestamp(),
@@ -108,20 +107,22 @@ let testTaskTwo = new Task(
     [
         'Go to place',
         'Do that thing', 
-    ]
-
+    ],
+    'Not Started'
 );
 
 testProject.addNewTask(testTask);
-testProject.addNewTask(testTaskTwo)
+testProject.addNewTask(testTaskTwo);
 
+testTaskTwo.addItemToCheckList('something', 'else');
 
-testTaskTwo.addItemToCheckList('something', 'else')
+console.log(testProject, testProject.getTasks());
 
-console.log(testProject, testProject.getTasks())
+testProject.removeTask(testTask);
 
-testProject.removeTask(testTask)
-console.log(testProject, testProject.getTasks())
-testTaskTwo.setStatusComplete()
-testTask.setStatusInProgress()
-console.log(testProject, testProject.getTasks())
+console.log(testProject, testProject.getTasks());
+
+testTask.setStatusInProgress();
+testTask.setStatusComplete();
+
+console.log(testProject, testProject.getTasks());

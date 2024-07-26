@@ -1,10 +1,11 @@
 class Project {
     #tasks; // Private field
 
-    constructor(projectName, dueDate){
+    constructor(projectName, dueDate, status = 'Not Started'){
         this.#tasks = [];
         this.projectName = projectName;
         this.dueDate = dueDate;
+        this.status = status
     }
 
     addNewTask(taskObject){
@@ -18,10 +19,14 @@ class Project {
     removeTask(taskToRemove){
         this.#tasks = this.#tasks.filter(task => task !== taskToRemove);
     }
-
-    completeProject(){
-        // Implement project completion logic
+    setProjectInProgress(){
+        this.status = 'In Progress'
     }
+
+    setProjectComplete(){
+        this.status = 'Complete'
+    }
+
 }
 
 function getUserInput(promptText){
@@ -61,9 +66,11 @@ class Task {
         this.checkList = checkList;
         this.status = status;
     }
+    
     addItemToCheckList(...itemsToAdd){
         this.checkList.push(...itemsToAdd);
     }
+    
     removeItemFromCheckList(...itemsToRemove){
         itemsToRemove.forEach(item => {
             const index = this.checkList.indexOf(item);
@@ -72,12 +79,19 @@ class Task {
             }
         });
     }
+    
     setStatusComplete(){
         this.status = 'Complete';
     }
+    
     setStatusInProgress(){
         this.status = 'In Progress';
     }
+
+    setTaskPriority(taskPriority){
+        this.priority = taskPriority;
+    }
+
 }
 
 // Creating a new project and adding tasks
@@ -125,4 +139,8 @@ console.log(testProject, testProject.getTasks());
 testTask.setStatusInProgress();
 testTask.setStatusComplete();
 
+testProject.setProjectInProgress()
+testProject.setProjectComplete()
+
+testTaskTwo.setTaskPriority('LOW')
 console.log(testProject, testProject.getTasks());

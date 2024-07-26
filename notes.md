@@ -111,3 +111,8 @@ Project                 -- Display
 - REMEMBER TO LOG ONLY PART OF THE OBJECT IF ITS RELEVANT
 - You may need to prompt for user input but thats okay, write a class for it!
 - I think I forgot how to request input in JavaScript lmao
+
+
+**QUESTIONS**
+- How will the Project get the tasks??????
+- What does that pipeline look like???

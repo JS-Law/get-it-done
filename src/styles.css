@@ -1,3 +1,35 @@
+@font-face {
+    font-family: 'Inter';
+    src: url(./assets/Font/Inter/Inter-VariableFont_slnt\,wght.ttf);
+}
+@font-face {
+    font-family: 'Cormorac-Bold';
+    src: url(./assets/Font/Cormorant_Garamond/CormorantGaramond-Bold.ttf);
+}
+@font-face {
+    font-family: 'Cormorac-Regular';
+    src: url(./assets/Font/Cormorant_Garamond/CormorantGaramond-Regular.ttf);
+}
+@font-face {
+    font-family: 'Cormorac-Italic';
+    src: url(./assets/Font/Cormorant_Garamond/CormorantGaramond-Italic.ttf);
+}
+@font-face {
+    font-family: 'Cormorac-BoldItalic';
+    src: url(./assets/Font/Cormorant_Garamond/CormorantGaramond-BoldItalic.ttf);
+}
+
+:root{
+    --primpary-font: 'Inter';
+    --secondary-font: 'Cormorac-Regular';
+    --secondary-font-bi: 'Cormorac-BoldItalic';
+    --secondary-font-i: 'Cormorac-Italic';
+    --secondary-font-b: 'Cormorac-Bold';
+}
+
+
+
+
 *{
     box-sizing: border-box;
     margin: 0;

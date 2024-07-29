@@ -17,17 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     let sideBar = new ElementCreator('section', {id: 'sidebar'}).createElement()
-    // sideBar.style.gridColumnStart = '1'
-    // sideBar.style.gridColumnEnd = '4'
-    // sideBar.style.gridRowStart = '1'
-    // sideBar.style.gridRowEnd = '11'
-
+    sideBar.style.display = 'grid'
+    sideBar.style.gridTemplateRows = 'repeat(12, 1fr)'
+    sideBar.style.gridTemplateColumns = '1fr'
+    sideBar.style.border = 'black 2px solid'
+    
     
     let projectSection = new ElementCreator('section', {id : 'project-section'}).createElement()
-    // projectSection.style.gridColumnStart = '4'
-    // projectSection.style.gridColumnEnd = '15'
-    // projectSection.style.gridRowStart = '1'
-    // projectSection.style.gridRowEnd = '10'
+    projectSection.style.display = 'grid'
+    projectSection.style.gridTemplateRows = 'repeat(12, 1fr)'
+    projectSection.style.gridTemplateColumns = 'repeat(12, 1fr)'
+    projectSection.style.border = 'black 2px solid'
+    
+
     new ElementAppender(contentContainer, sideBar, projectSection).appendElements()
 
 

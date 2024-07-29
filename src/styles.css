@@ -25,6 +25,11 @@
     --secondary-font-bi: 'Cormorac-BoldItalic';
     --secondary-font-i: 'Cormorac-Italic';
     --secondary-font-b: 'Cormorac-Bold';
+
+    --primary-color: #60656F;
+    --secondary-color: #A8B4A5;
+    --tertiary-color: #B80C09;
+    --black: #131112;
 }
 
 

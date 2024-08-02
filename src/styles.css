@@ -21,10 +21,7 @@
 
 :root{
     --primpary-font: 'Inter';
-    --secondary-font: 'Cormorac-Regular';
-    --secondary-font-bi: 'Cormorac-BoldItalic';
-    --secondary-font-i: 'Cormorac-Italic';
-    --secondary-font-b: 'Cormorac-Bold';
+    --secondary-font: 'Lobster';
 
     --primary-color: #60656F;
     --secondary-color: #A8B4A5;
@@ -40,13 +37,22 @@
     margin: 0;
 }
 
+body{
+    background-color: var(--black);
+    
+}
+
+
 #nav-bar{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-inline: 1rem;
+    padding-inline: 2rem;
+    padding-block: 1rem;
+    color: var(--tertiary-color);
 }
 
 #site-title{
-    font-family: var(--secondary-font-b);
+    font-family: var(--secondary-font);
+    font-size: 3rem;
 }

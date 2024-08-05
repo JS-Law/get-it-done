@@ -75,9 +75,6 @@ class ElementAppender {
     }
 }
 
-// -----Usage-----
-// const appender = new ElementAppender(parentElement, childElement1, childElement2);
-// appender.appendElements();
 
 // -----------------IMAGE IMPORTER-----------------
 class ImageImporter {

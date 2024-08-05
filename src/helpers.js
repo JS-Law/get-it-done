@@ -94,8 +94,49 @@ class Task {
 
 }
 
+function displayTasks(project) {
+    const projectContainer = document.getElementById('project-section');
+    // projectContainer.innerHTML = ''; // Clear any existing content
+    
+    // Create project header
+    const projectHeader = document.createElement('h2');
+    projectHeader.textContent = `${project.projectName} (Due: ${project.dueDate}) - Status: ${project.status}`;
+    
+    // Create a container for tasks
+    const taskList = document.createElement('div');
+    taskList.classList.add('project');
+    taskList.appendChild(projectHeader)
+
+    // Loop through the tasks and create elements for each task
+    project.getTasks().forEach(task => {
+        const taskElement = document.createElement('div');
+        taskElement.classList.add('task');
+
+        const taskHeader = document.createElement('div');
+        taskHeader.classList.add('task-header');
+        taskHeader.textContent = `${task.name} (Due: ${task.dueDate}) - Status: ${task.status}`;
+
+        const taskDetails = document.createElement('div');
+        taskDetails.innerHTML = `
+            <p>Priority: ${task.priority}</p>
+            <p>Description: ${task.description}</p>
+            <p>Notes: ${task.notes}</p>
+            <p>Date Created: ${task.dateCreated}</p>
+            <p>Checklist: ${task.checkList.join(', ')}</p>
+        `;
+
+        taskElement.appendChild(taskHeader);
+        taskElement.appendChild(taskDetails);
+        taskList.appendChild(taskElement);
+    });
+
+    projectContainer.appendChild(taskList);
+}
+
+
 // Creating a new project and adding tasks
 let testProject = new Project('Project 1', '2023-12-31');
+let testProjectTwo = new Project('Project 1', '2023-12-31');
 
 let testTask = new Task(
     'Finish the thing 1',
@@ -127,14 +168,11 @@ let testTaskTwo = new Task(
 
 testProject.addNewTask(testTask);
 testProject.addNewTask(testTaskTwo);
-
 testTaskTwo.addItemToCheckList('something', 'else');
 
-console.log(testProject, testProject.getTasks());
 
-testProject.removeTask(testTask);
 
-console.log(testProject, testProject.getTasks());
+
 
 testTask.setStatusInProgress();
 testTask.setStatusComplete();
@@ -143,12 +181,12 @@ testProject.setProjectInProgress()
 testProject.setProjectComplete()
 
 testTaskTwo.setTaskPriority('LOW')
-console.log(testProject, testProject.getTasks());
+
 
 
 export {
     Project,
     Task,
     getTimestamp,
-    
+    displayTasks,
 }

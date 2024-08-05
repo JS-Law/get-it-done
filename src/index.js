@@ -1,10 +1,11 @@
 import { Project } from "./helpers";
 import { Task } from "./helpers";
+import { displayTasks } from "./helpers";
 import { ElementCreator } from "./DOMLoader";
 import { ElementAppender } from "./DOMLoader";
 import './styles.css';
 import 'material-icons/iconfont/material-icons.css';
-
+import { getTimestamp } from "./helpers";
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,21 +17,63 @@ document.addEventListener('DOMContentLoaded', () => {
     contentContainer.style.gridTemplateRows = '1fr'
 
 
-    let sideBar = new ElementCreator('section', {id: 'sidebar'}).createElement()
+    let sideBar = document.querySelector('#side-bar')
     sideBar.style.display = 'grid'
     sideBar.style.gridTemplateRows = 'repeat(12, 1fr)'
     sideBar.style.gridTemplateColumns = '1fr'
-    sideBar.style.border = 'black 2px solid'
     
     
-    let projectSection = new ElementCreator('section', {id : 'project-section'}).createElement()
-    projectSection.style.display = 'grid'
-    projectSection.style.gridTemplateRows = 'repeat(12, 1fr)'
-    projectSection.style.gridTemplateColumns = 'repeat(12, 1fr)'
-    projectSection.style.border = 'black 2px solid'
+    let projectSection = document.querySelector('#project-section')
+    projectSection.style.display = 'flex'
+
     
 
     new ElementAppender(contentContainer, sideBar, projectSection).appendElements()
 
 
 })
+
+let testProject = new Project('Project 1', '2023-12-31');
+let testProjectTwo = new Project('Project 1', '2023-12-31');
+
+let testTask = new Task(
+    'Finish the thing 1',
+    getTimestamp(),
+    getTimestamp(),
+    'High',
+    'Go to the place to do the thing, NOW',
+    'Remember to do that thing',
+    [
+        'Go to place',
+        'Do that thing', 
+    ],
+    'Not Started'
+);
+
+let testTaskTwo = new Task(
+    'Finish the thing 2',
+    getTimestamp(),
+    getTimestamp(),
+    'High',
+    'Go to the place to do the thing, NOW',
+    'Remember to do that thing',
+    [
+        'Go to place',
+        'Do that thing', 
+    ],
+    'Not Started'
+);
+
+testProject.addNewTask(testTask);
+testProject.addNewTask(testTaskTwo);
+
+
+testProjectTwo.addNewTask(testTaskTwo)
+testProjectTwo.addNewTask(testTask)
+
+
+testTaskTwo.addItemToCheckList('something', 'else');
+displayTasks(testProjectTwo)
+displayTasks(testProject)
+displayTasks(testProject)
+displayTasks(testProject)

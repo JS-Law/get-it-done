@@ -56,3 +56,25 @@ body{
     font-family: var(--secondary-font);
     font-size: 3rem;
 }
+
+#main-content{
+    color: rgba(245, 245, 245, 0.694);
+    font-family: var(--primpary-font);
+}
+
+#header{
+    border-bottom: var(--primary-color) solid 2px;
+}
+
+.project{
+    margin: 2rem;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    border-radius: .7rem;
+}
+.task{
+    margin: 1rem;
+    background-color: var(--black);
+    padding: 1rem;
+    border-radius: .4rem;
+}

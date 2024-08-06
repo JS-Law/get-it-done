@@ -22,8 +22,27 @@
         </navbar>
     </header>
     <content id="main-content">
-        <section id="side-bar"></section>
+        <section id="side-bar">
+            <div id="create-new-project">
+                <!-- <icon class="material-icons">add</icon> -->
+                <button id="add-project-button"><icon class="material-icons">add</icon>Add New Project</button>
+            </div>
+        </section>
         <section id="project-section"></section>
+        <div id="project-form-container" class="hidden">
+            <form id="project-form">
+                <div id="name-section">
+                    <label for="project-name">Project Name:</label>
+                    <input type="text" id="project-name" name="project-name" required>
+                </div>
+                <div id="due-date-section">
+                    <label for="project-due-date">Due Date:</label>
+                    <input type="date" id="project-due-date" name="project-due-date" required>
+                </div>
+        
+                <button type="submit">Add Project</button>
+            </form>
+        </div>        
     </content>
 <script defer src="bundle.js"></script></body>
 </html>

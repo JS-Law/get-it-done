@@ -23,7 +23,8 @@
     --primpary-font: 'Inter';
     --secondary-font: 'Lobster';
 
-    --primary-color: #60656F;
+    --primary-color: #60656f56;
+    --primary-color-solid: #60656F;
     --secondary-color: #A8B4A5;
     --tertiary-color: #B80C09;
     --black: #131112;
@@ -63,9 +64,41 @@ body{
 }
 
 #header{
-    border-bottom: var(--primary-color) solid 2px;
+    /* border-bottom: var(--primary-color) solid 2px; */
+}
+.material-icons{
+    /* color: whitesmoke; */
 }
 
+#side-bar{
+    /* border-right: solid 2px var(--primary-color); */
+}
+#project-section{
+    background-color: var(--primary-color);
+    border-radius: .3rem;
+}
+
+#add-project-button{
+    display: flex;
+    align-items: center;
+    margin: 1.5rem;
+    border: 0px;
+    background-color: var(--primary-color);
+    border-radius: .3rem;
+    color: var(--secondary-color);
+    padding-right: .6rem;
+    transition: 0.2s ease-in-out;
+}
+#add-project-button:hover{
+    transition: 0.4s ease-in-out;
+    background-color: var(--primary-color-solid);
+    color: whitesmoke;
+}
+
+#create-new-project{
+    display: flex;
+    align-items: center;
+}
 .project{
     margin: 2rem;
     padding: 1rem;
@@ -77,4 +110,48 @@ body{
     background-color: var(--black);
     padding: 1rem;
     border-radius: .4rem;
+}
+
+.hidden {
+    display: none;
+}
+
+#project-form-container {
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    color: var(--primary-color);
+    background-color: var(--black);
+    transition: 0.6s ease-in-out;
+}
+#name-section{
+    margin-inline-start: .1rem;
+
+}
+#name-section label{
+    margin-inline-end: 1rem;
+
+}
+#project-name{
+    max-width: 2rem;
+
+}
+
+#due-date-section{
+    
+}
+#due-date-section label{
+
+}
+#project-due-date{
+    max-width: 2rem;
+    margin-inline-start: 1.7rem;
+    
 }

@@ -93,6 +93,10 @@ body{
     transition: 0.4s ease-in-out;
     background-color: var(--primary-color-solid);
     color: whitesmoke;
+    -webkit-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+
 }
 
 #create-new-project{
@@ -123,36 +127,71 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     z-index: 1000;
     color: var(--secondary-font);
     background-color: var(--primary-color);
     border-radius: .3rem;
     border: none;
+    -webkit-box-shadow: 17px 22px 30px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 17px 22px 30px -4px rgba(0,0,0,0.75);
+    box-shadow: 17px 22px 30px -4px rgba(0,0,0,0.75);
+
 
 }
 #name-section{
     /* margin-inline-start: .1rem; */
-
+    margin-block: 1.5rem;
+    
 }
 #name-section label{
+    margin-block-end: 1rem;
     margin-inline-end: 1rem;
     
 }
-#project-name-field{
+#project-name{
+    margin-block-end: 1rem;
     max-width: 10rem;
-
+    background-color: var(--black);
+    border: none;
 }
 
 #due-date-section{
+    margin-block-end: 2rem;
     
 }
 #due-date-section label{
-
+    margin-block-end: 2rem;
+    
 }
-#project-due-date-field{
+#project-due-date{
+    margin-block-end: 1rem;
     max-width: 10rem;
     margin-inline-start: 1.7rem;
+    background-color: var(--black);
+    border: none;
     
+}
+#form-submit-button{
+    margin-block-end: 2rem;
+    display: flex;
+    align-items: center;
+    /* margin: 1.5rem; */
+    border: 0px;
+    background-color: var(--primary-color);
+    border-radius: .3rem;
+    color: var(--secondary-color);
+    padding-right: .6rem;
+    transition: 0.2s ease-in-out;
+}
+#form-submit-button:hover{
+    transition: 0.4s ease-in-out;
+    background-color: var(--primary-color-solid);
+    color: whitesmoke;
+    -webkit-box-shadow: 11px 17px 38px 4px rgba(0,0,0,0.75);
+-moz-box-shadow: 11px 17px 38px 4px rgba(0,0,0,0.75);
+box-shadow: 11px 17px 38px 4px rgba(0,0,0,0.75);
+
+
 }

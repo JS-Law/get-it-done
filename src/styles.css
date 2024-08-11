@@ -210,3 +210,19 @@ box-shadow: 11px 17px 38px 4px rgba(0,0,0,0.75);
 input[type="text"]:focus {
     outline: 2px solid var(--tertiary-color); /* Change #007bff to your desired color */
 }
+
+
+/* PROJECT STYLING */
+#project-header-container{
+    text-align: center;
+}
+
+#project-header{
+
+}
+#project-status{
+
+}
+#project-due{
+    
+}

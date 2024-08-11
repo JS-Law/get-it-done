@@ -96,16 +96,29 @@ class Task {
 
 function displayTasks(project) {
     const projectContainer = document.getElementById('project-section');
-    // projectContainer.innerHTML = ''; // Clear any existing content
-    
+
+    // Create a container for this project
+    const projectElement = document.createElement('div');
+    projectElement.classList.add('project-container');
+
     // Create project header
     const projectHeader = document.createElement('h2');
-    projectHeader.textContent = `${project.projectName} (Due: ${project.dueDate}) - Status: ${project.status}`;
-    
+    projectHeader.textContent = `${project.projectName}`;
+
+    // Create Project Due Date element
+    const projectDueDate = document.createElement('h3');
+    projectDueDate.textContent = `Due: ${project.dueDate}`;
+
+    // Create Project status element
+    const projectStatus = document.createElement('h3');
+    projectStatus.textContent = `Status: ${project.status}`;
+
     // Create a container for tasks
     const taskList = document.createElement('div');
     taskList.classList.add('project');
-    taskList.appendChild(projectHeader)
+    taskList.appendChild(projectHeader);
+    taskList.appendChild(projectDueDate);
+    taskList.appendChild(projectStatus);
 
     // Loop through the tasks and create elements for each task
     project.getTasks().forEach(task => {
@@ -122,16 +135,44 @@ function displayTasks(project) {
             <p>Description: ${task.description}</p>
             <p>Notes: ${task.notes}</p>
             <p>Date Created: ${task.dateCreated}</p>
-            <p>Checklist: ${task.checkList.join(', ')}</p>
         `;
+
+        // Create the checklist
+        const checklist = document.createElement('ul');
+        checklist.classList.add('checklist');
+
+        task.checkList.forEach((item, index) => {
+            const listItem = document.createElement('li');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `check-${task.name}-${index}`;
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    listItem.style.display = 'none'; // Hide the item when checked
+                    task.removeItemFromCheckList(item);
+                }
+            });
+
+            const label = document.createElement('label');
+            label.setAttribute('for', checkbox.id);
+            label.textContent = item;
+
+            listItem.appendChild(checkbox);
+            listItem.appendChild(label);
+            checklist.appendChild(listItem);
+        });
 
         taskElement.appendChild(taskHeader);
         taskElement.appendChild(taskDetails);
+        taskElement.appendChild(checklist);
         taskList.appendChild(taskElement);
     });
 
-    projectContainer.appendChild(taskList);
+    projectElement.appendChild(taskList);
+    projectContainer.appendChild(projectElement);
 }
+
+
 
 
 // Creating a new project and adding tasks

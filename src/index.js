@@ -57,47 +57,47 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// let testProject = new Project('Project 1', '2023-12-31');
-// let testProjectTwo = new Project('Project 1', '2023-12-31');
+let testProject = new Project('Project 1', '2023-12-31');
+let testProjectTwo = new Project('Project 1', '2023-12-31');
 
-// let testTask = new Task(
-//     'Finish the thing 1',
-//     getTimestamp(),
-//     getTimestamp(),
-//     'High',
-//     'Go to the place to do the thing, NOW',
-//     'Remember to do that thing',
-//     [
-//         'Go to place',
-//         'Do that thing', 
-//     ],
-//     'Not Started'
-// );
+let testTask = new Task(
+    'Finish the thing 1',
+    getTimestamp(),
+    getTimestamp(),
+    'High',
+    'Go to the place to do the thing, NOW',
+    'Remember to do that thing',
+    [
+        'Go to place',
+        'Do that thing', 
+    ],
+    'Not Started'
+);
 
-// let testTaskTwo = new Task(
-//     'Finish the thing 2',
-//     getTimestamp(),
-//     getTimestamp(),
-//     'High',
-//     'Go to the place to do the thing, NOW',
-//     'Remember to do that thing',
-//     [
-//         'Go to place',
-//         'Do that thing', 
-//     ],
-//     'Not Started'
-// );
+let testTaskTwo = new Task(
+    'Finish the thing 2',
+    getTimestamp(),
+    getTimestamp(),
+    'High',
+    'Go to the place to do the thing, NOW',
+    'Remember to do that thing',
+    [
+        'Go to place',
+        'Do that thing', 
+    ],
+    'Not Started'
+);
 
-// testProject.addNewTask(testTask);
-// testProject.addNewTask(testTaskTwo);
-
-
-// testProjectTwo.addNewTask(testTaskTwo)
-// testProjectTwo.addNewTask(testTask)
+testProject.addNewTask(testTask);
+testProject.addNewTask(testTaskTwo);
 
 
-// testTaskTwo.addItemToCheckList('something', 'else');
-// displayTasks(testProjectTwo)
-// displayTasks(testProject)
-// displayTasks(testProject)
-// displayTasks(testProject)
+testProjectTwo.addNewTask(testTaskTwo)
+testProjectTwo.addNewTask(testTask)
+
+
+testTaskTwo.addItemToCheckList('something', 'else');
+displayTasks(testProjectTwo)
+displayTasks(testProject)
+displayTasks(testProject)
+displayTasks(testProject)

@@ -77,8 +77,11 @@ body{
     background-color: var(--primary-color);
     border-radius: .3rem;
 }
+.button{
+    width: 9rem;
+}
 
-#add-project-button{
+#add-project-button, #display-project-button, #display-all-tasks{
     display: flex;
     align-items: center;
     margin: 1.5rem;
@@ -96,11 +99,33 @@ body{
     -webkit-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+}
+#display-project-button:hover{
+    transition: 0.4s ease-in-out;
+    background-color: var(--primary-color-solid);
+    color: whitesmoke;
+    -webkit-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+}
+#display-all-tasks:hover{
+    transition: 0.4s ease-in-out;
+    background-color: var(--primary-color-solid);
+    color: whitesmoke;
+    -webkit-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+}
 
+#display-project-button .material-icons{
+    width: 30px;
+}
+#display-all-tasks .material-icons{
+    width: 30px;
 }
 
 #create-new-project{
-    display: flex;
+    /* display: flex; */
     align-items: center;
 }
 .project{
@@ -110,7 +135,7 @@ body{
     border-radius: .7rem;
 }
 .task{
-    margin: 1rem;
+    margin-block: 1rem;
     background-color: var(--black);
     padding: 1rem;
     border-radius: .4rem;
@@ -211,18 +236,32 @@ input[type="text"]:focus {
     outline: 2px solid var(--tertiary-color); /* Change #007bff to your desired color */
 }
 
+/* PROJECT ELEMENT STYLING */
+/* ALSO REFERENCED ABOVE */
+.project{
 
-/* PROJECT STYLING */
+}
+
+
+/* INDIVIDUAL PROJECT STYLING */
 #project-header-container{
     text-align: center;
 }
 
 #project-header{
-
+    letter-spacing: .2rem;
+    margin-block-end: .75rem;
 }
 #project-status{
-
+    font-weight: 200;
 }
 #project-due{
-    
+    font-weight: 200;
+
+}
+
+
+/* TASK STYLING */
+.task{
+
 }

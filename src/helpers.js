@@ -120,6 +120,11 @@ function displayTasks(project) {
     // Create a container for tasks
     const taskList = document.createElement('div');
     taskList.classList.add('project');
+    
+    const addTaskBtn = document.createElement('button');
+    addTaskBtn.className = 'button';
+    addTaskBtn.id = 'add-new-task-project';
+    
     projectHeaderContainer.appendChild(projectHeader);
     projectHeaderContainer.appendChild(projectDueDate);
     projectHeaderContainer.appendChild(projectStatus);
@@ -132,9 +137,26 @@ function displayTasks(project) {
 
         const taskHeader = document.createElement('div');
         taskHeader.classList.add('task-header');
-        taskHeader.textContent = `${task.name} (Due: ${task.dueDate}) - Status: ${task.status}`;
 
+        const taskName = document.createElement('div');
+        taskName.id = 'task-name';
+        taskName.textContent = `${task.name}`;
+
+        const taskDueDate = document.createElement('div');
+        taskDueDate.id = 'task-due-date';
+        taskDueDate.textContent = `${task.dueDate}`;
+
+        const taskStatus = document.createElement('div');
+        taskStatus.id = 'task-status';
+        taskStatus.textContent = `${task.status}`
+
+        taskHeader.appendChild(taskName)
+        taskHeader.appendChild(taskDueDate)
+        taskHeader.appendChild(taskStatus)
+
+        // Task Container
         const taskDetails = document.createElement('div');
+
         taskDetails.innerHTML = `
             <p>Priority: ${task.priority}</p>
             <p>Description: ${task.description}</p>

@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-let testProject = new Project('Project 1', '2023-12-31');
-let testProjectTwo = new Project('Project 1', '2023-12-31');
+let testProject = new Project('Plant Garden', 'Dec 10th, 2024');
+let testProjectTwo = new Project('Finish Todo List', 'Dec 10th, 2024');
 
 let testTask = new Task(
-    'Finish the thing 1',
+    'Get dirt',
     getTimestamp(),
     getTimestamp(),
     'High',

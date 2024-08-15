@@ -116,3 +116,33 @@ Project                 -- Display
 **QUESTIONS**
 - How will the Project get the tasks??????
 - What does that pipeline look like???
+
+
+
+
+# 08/13
+1. Add project
+2. Tab is added to the page
+3. Within tab there are three columns.
+4. High, Medium, Low priority.
+5. Need to account for NOT STARTED.. Where do those go??
+6. I also like the idea of a Pomodoro being implemented as well.
+7. Going overboard with this but I need to learn and grow.
+8. Progress is slow though.
+
+
+#  08/14
+Alright so I have the functionality that I need to add a new project to the tablist
+
+NOW what I need to is rename the function to better describe what it is which is AddProjectToTabList
+
+After renaming it, I can create another function that runs when the li is an `.active` class. This might be hard, idk but it seems like it can be doable solo.
+
+Essentially....
+```
+if (class .active){
+  show content
+} else {
+  dont show content
+}
+```

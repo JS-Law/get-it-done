@@ -95,28 +95,48 @@ class Task {
 }
 
 function displayTasks(project) {
+
+
+
+    // Get project container
+    // Add new list item with Project Name
+    // 
+    const documentBody = document.querySelector('body');
     const projectContainer = document.getElementById('project-section');
+    
+    const tabsGroup = document.querySelector('.tabs');
+    
+    const projectTabTitle = document.createElement('li');
+    
+    const projectTabTitleLink = document.createElement('a');
+    projectTabTitleLink.textContent = `${project.projectName}`;
+    projectTabTitleLink.href = '#';
+    
+    tabsGroup.appendChild(projectTabTitle)
+    projectTabTitle.appendChild(projectTabTitleLink);
 
     // Create a container for this project
-    const projectElement = document.createElement('div');
-    projectElement.classList.add('project-container');
+    // const projectElement = document.createElement('div');
+    // projectElement.classList.add('project-container');
 
     // Create a container for the project header details
-    const projectHeaderContainer = document.createElement('div');
-    projectHeaderContainer.id = 'project-header-container';
+    // const projectHeaderContainer = document.createElement('div');
+    // projectHeaderContainer.id = 'project-header-container';
 
-    // Create project header
-    const projectHeader = document.createElement('h2');
-    projectHeader.textContent = `${project.projectName}`;
-    projectHeader.id = 'project-header'
-    // Create Project Due Date element
-    const projectDueDate = document.createElement('h3');
-    projectDueDate.textContent = `Due: ${project.dueDate}`;
-    projectDueDate.id = 'project-due'
-    // Create Project status element
-    const projectStatus = document.createElement('h3');
-    projectStatus.textContent = `Status: ${project.status}`;
-    projectStatus.id = 'project-status'
+    // // Create project header
+    // const projectHeader = document.createElement('h2');
+    // projectHeader.textContent = `${project.projectName}`;
+    // projectHeader.id = 'project-header'
+    
+    // // Create Project Due Date element
+    // const projectDueDate = document.createElement('h3');
+    // projectDueDate.textContent = `Due: ${project.dueDate}`;
+    // projectDueDate.id = 'project-due'
+    
+    // // Create Project status element
+    // const projectStatus = document.createElement('h3');
+    // projectStatus.textContent = `Status: ${project.status}`;
+    // projectStatus.id = 'project-status'
     // Create a container for tasks
     const taskList = document.createElement('div');
     taskList.classList.add('project');
@@ -125,10 +145,10 @@ function displayTasks(project) {
     addTaskBtn.className = 'button';
     addTaskBtn.id = 'add-new-task-project';
     
-    projectHeaderContainer.appendChild(projectHeader);
-    projectHeaderContainer.appendChild(projectDueDate);
-    projectHeaderContainer.appendChild(projectStatus);
-    taskList.appendChild(projectHeaderContainer);
+    // projectHeaderContainer.appendChild(projectHeader);
+    // projectHeaderContainer.appendChild(projectDueDate);
+    // projectHeaderContainer.appendChild(projectStatus);
+    // taskList.appendChild(projectHeaderContainer);
 
     // Loop through the tasks and create elements for each task
     project.getTasks().forEach(task => {
@@ -195,8 +215,8 @@ function displayTasks(project) {
         taskList.appendChild(taskElement);
     });
     
-    projectElement.appendChild(taskList);
-    projectContainer.appendChild(projectElement);
+    // projectElement.appendChild(taskList);
+    // projectContainer.appendChild(projectElement);
 }
 
 

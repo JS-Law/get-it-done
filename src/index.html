@@ -22,17 +22,17 @@
         </navbar>
     </header>
     <ul class="tabs group">
-        <li class="active"><a href="#one">One</a></li> 
-        <li><a href="#two">Two</a></li> 
-        <li><a href="#three">Three</a></li>
-        <li><a href="#three">Four</a></li> 
+        <!-- <li class="active"><a href="#one">Finish Todo List</a></li>  -->
+        <!-- <li><a href="#two">Two</a></li>  -->
+        <!-- <li><a href="#three">Three</a></li> -->
+        <!-- <li><a href="#three">Four</a></li>  -->
     </ul>
     <content id="main-content">
         <section id="side-bar">
             <div id="create-new-project">
                 <!-- <icon class="material-icons">add</icon> -->
                 <button class="button" id="add-project-button"><icon class="material-icons">add</icon>Add New Project</button>
-                <button class="button" id="display-project-button"><icon class="material-icons">lists</icon>View Projects</button>
+                <button class="button" id="display-project-button"><icon class="material-icons">lists</icon>Select Project</button>
                 <button class="button" id="display-all-tasks"><icon class="material-icons">lists</icon>View All Tasks</button>
             </div>
         </section>
@@ -52,5 +52,15 @@
             </form>
         </div>        
     </content>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script>
+		$(function() {
+			$("li").click(function(e) {
+			  e.preventDefault();
+			  $("li").removeClass("active");
+			  $(this).addClass("active");
+			});
+		});
+	</script>
 </body>
 </html>

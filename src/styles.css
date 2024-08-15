@@ -22,10 +22,15 @@
 :root{
     --primpary-font: 'Inter';
     --secondary-font: 'Lobster';
-
-    --primary-color: #60656f56;
+    /* ORIGINAL  */
+    /* --primary-color: #60656f56;  */
+    --primary-color: rgba(34, 35, 37); 
+    --primary-color-light: rgba(48, 49, 54);
+    /* ORIGINAL */
+    --primary-color-lighter: #6e6f72;
     --primary-color-solid: #60656F;
-    --secondary-color: #A8B4A5;
+    --secondary-color: #858585;
+    /* --secondary-color: #A8B4A5; */
     --tertiary-color: #B80C09;
     --black: #131112;
 }
@@ -131,7 +136,7 @@ body{
 .project{
     margin: 2rem;
     padding: 1rem;
-    background-color: var(--primary-color);
+    background-color: var(--primary-color-light);
     border-radius: .7rem;
 }
 .task{
@@ -272,9 +277,8 @@ input[type="text"]:focus {
 .tabs li { 
     /* Makes a horizontal row */
     float: left; 
-      
-    /* So the psueudo elements can be
-       abs. positioned inside */
+    font-family: var(--primpary-font);
+    list-style-type: none;
     position: relative; 
   }
 .tabs li:first-child { 
@@ -294,8 +298,8 @@ input[type="text"]:focus {
     text-decoration: none;
     
     /* Default colors */ 
-    color: var(--primary-color);
-    background: #ddc385; 
+    color: var(--black);
+    background: var(--secondary-color); 
     
     /* Only round the top corners */
     -webkit-border-top-left-radius: 15px;
@@ -312,7 +316,7 @@ input[type="text"]:focus {
   .tabs .active a { 
     /* Colors when tab is active */
     background: var(--primary-color); 
-    color: black; 
+    color: var(--secondary-color); 
   }
   .tabs li:before, .tabs li:after, 
   .tabs li a:before, .tabs li a:after {
@@ -337,7 +341,7 @@ input[type="text"]:focus {
   }
   /* Squares */
   .tabs li:before, .tabs li:after {
-    background: #ddc385;
+    background: var(--secondary-color);
     width: 10px;
     height: 10px;
   }
@@ -355,19 +359,19 @@ input[type="text"]:focus {
     -webkit-border-radius: 10px;
     -moz-border-radius:    10px;
     border-radius:         10px;
-    background: #222;
+    background: var(--black);
     
     /* Circles over squares */
     z-index: 2;
   }
   .tabs .active a:after, .tabs .active a:before {
-    background: #ddc385;
+    background: var(--secondary-color);
   }
   /* First and last tabs have different
      outside color needs */
   .tabs li:first-child.active a:before,
   .tabs li:last-child.active a:after {
-    background: #222;
+    background: var(--black);
   }
   .tabs li a:before {
     left: -20px;

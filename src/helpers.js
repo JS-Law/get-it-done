@@ -95,180 +95,200 @@ class Task {
 }
 
 function displayTasks(project) {
+    // Locate the project tab or create it if it doesn't exist
+    let projectTab = document.querySelector(`[data-project="${project.projectName}"]`);
+    if (!projectTab) {
+        const tabsGroup = document.querySelector('.tabs');
+        projectTab = document.createElement('li');
+        projectTab.setAttribute('data-project', project.projectName);
 
+        const projectTabTitleLink = document.createElement('a');
+        projectTabTitleLink.textContent = `${project.projectName}`;
+        projectTabTitleLink.href = '#';
 
+        projectTab.appendChild(projectTabTitleLink);
+        tabsGroup.appendChild(projectTab);
 
-    // Get project container
-    // Add new list item with Project Name
-    // 
-    const documentBody = document.querySelector('body');
-    const projectContainer = document.getElementById('project-section');
-    
-    const tabsGroup = document.querySelector('.tabs');
-    
-    const projectTabTitle = document.createElement('li');
-    
-    const projectTabTitleLink = document.createElement('a');
-    projectTabTitleLink.textContent = `${project.projectName}`;
-    projectTabTitleLink.href = '#';
-    
-    tabsGroup.appendChild(projectTabTitle)
-    projectTabTitle.appendChild(projectTabTitleLink);
+        // Add click event to switch tabs and show relevant tasks
+        projectTabTitleLink.addEventListener('click', () => {
+            switchToProjectTab(project);
+        });
+    }
 
-    // Create a container for this project
-    // const projectElement = document.createElement('div');
-    // projectElement.classList.add('project-container');
+    // Create the content container for tasks if it doesn't exist
+    let projectContent = document.querySelector(`#content-${project.projectName}`);
+    if (!projectContent) {
+        projectContent = document.createElement('div');
+        projectContent.id = `content-${project.projectName}`;
+        projectContent.classList.add('project-content');
 
-    // Create a container for the project header details
-    // const projectHeaderContainer = document.createElement('div');
-    // projectHeaderContainer.id = 'project-header-container';
+        const projectSection = document.querySelector('#project-section');
+        projectSection.appendChild(projectContent);
+    }
 
-    // // Create project header
-    // const projectHeader = document.createElement('h2');
-    // projectHeader.textContent = `${project.projectName}`;
-    // projectHeader.id = 'project-header'
-    
-    // // Create Project Due Date element
-    // const projectDueDate = document.createElement('h3');
-    // projectDueDate.textContent = `Due: ${project.dueDate}`;
-    // projectDueDate.id = 'project-due'
-    
-    // // Create Project status element
-    // const projectStatus = document.createElement('h3');
-    // projectStatus.textContent = `Status: ${project.status}`;
-    // projectStatus.id = 'project-status'
-    // Create a container for tasks
-    const taskList = document.createElement('div');
-    taskList.classList.add('project');
-    
-    const addTaskBtn = document.createElement('button');
-    addTaskBtn.className = 'button';
-    addTaskBtn.id = 'add-new-task-project';
-    
-    // projectHeaderContainer.appendChild(projectHeader);
-    // projectHeaderContainer.appendChild(projectDueDate);
-    // projectHeaderContainer.appendChild(projectStatus);
-    // taskList.appendChild(projectHeaderContainer);
+    // Clear previous content
+    projectContent.innerHTML = '';
 
-    // Loop through the tasks and create elements for each task
+    // Create columns for High, Medium, Low priorities
+    const highPriorityColumn = document.createElement('div');
+    highPriorityColumn.classList.add('column');
+    highPriorityColumn.id = 'high-priority-column';
+    highPriorityColumn.textContent = 'High Priority';
+
+    const mediumPriorityColumn = document.createElement('div');
+    mediumPriorityColumn.classList.add('column');
+    mediumPriorityColumn.id = 'medium-priority-column';
+    mediumPriorityColumn.textContent = 'Medium Priority';
+
+    const lowPriorityColumn = document.createElement('div');
+    lowPriorityColumn.classList.add('column');
+    lowPriorityColumn.id = 'low-priority-column';
+    lowPriorityColumn.textContent = 'Low Priority';
+
+    projectContent.appendChild(highPriorityColumn);
+    projectContent.appendChild(mediumPriorityColumn);
+    projectContent.appendChild(lowPriorityColumn);
+
+    // Add tasks to the appropriate column based on priority
     project.getTasks().forEach(task => {
         const taskElement = document.createElement('div');
         taskElement.classList.add('task');
+        taskElement.textContent = task.name;
 
-        const taskHeader = document.createElement('div');
-        taskHeader.classList.add('task-header');
+        switch (task.priority) {
+            case 'High':
+                highPriorityColumn.appendChild(taskElement);
+                break;
+            case 'Medium':
+                mediumPriorityColumn.appendChild(taskElement);
+                break;
+            case 'Low':
+                lowPriorityColumn.appendChild(taskElement);
+                break;
+            default:
+                lowPriorityColumn.appendChild(taskElement);
+                break;
+        }
+    });
 
-        const taskName = document.createElement('div');
-        taskName.id = 'task-name';
-        taskName.textContent = `${task.name}`;
+    makeTasksDraggable();
+}
 
-        const taskDueDate = document.createElement('div');
-        taskDueDate.id = 'task-due-date';
-        taskDueDate.textContent = `${task.dueDate}`;
 
-        const taskStatus = document.createElement('div');
-        taskStatus.id = 'task-status';
-        taskStatus.textContent = `${task.status}`
 
-        taskHeader.appendChild(taskName)
-        taskHeader.appendChild(taskDueDate)
-        taskHeader.appendChild(taskStatus)
+function makeTasksDraggable() { // Line 172
+    const columns = document.querySelectorAll('.column'); // Line 173
 
-        // Task Container
-        const taskDetails = document.createElement('div');
-
-        taskDetails.innerHTML = `
-            <p>Priority: ${task.priority}</p>
-            <p>Description: ${task.description}</p>
-            <p>Notes: ${task.notes}</p>
-            <p>Date Created: ${task.dateCreated}</p>
-        `;
-
-        // Create the checklist
-        const checklist = document.createElement('ul');
-        checklist.classList.add('checklist');
-
-        task.checkList.forEach((item, index) => {
-            const listItem = document.createElement('li');
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `check-${task.name}-${index}`;
-            checkbox.addEventListener('change', () => {
-                if (checkbox.checked) {
-                    listItem.style.display = 'none'; // Hide the item when checked
-                    task.removeItemFromCheckList(item);
-                }
-            });
-
-            const label = document.createElement('label');
-            label.setAttribute('for', checkbox.id);
-            label.textContent = item;
-
-            listItem.appendChild(checkbox);
-            listItem.appendChild(label);
-            checklist.appendChild(listItem);
+    columns.forEach(column => { // Line 174
+        column.addEventListener('dragover', (e) => { // Line 175
+            e.preventDefault(); // Line 176
+            // The element currently being dragged
+            const dragging = document.querySelector('.dragging'); // Line 177
+            if (dragging) { // Line 178
+                column.appendChild(dragging); // Line 179
+            }
         });
 
-        taskElement.appendChild(taskHeader);
-        taskElement.appendChild(taskDetails);
-        taskElement.appendChild(checklist);
-        taskList.appendChild(taskElement);
+        column.addEventListener('drop', (e) => { // Line 182
+            e.preventDefault(); // Line 183
+            const dragging = document.querySelector('.dragging'); // Line 184
+            if (dragging) { // Line 185
+                column.appendChild(dragging); // Line 186
+                dragging.classList.remove('dragging'); // Line 187
+            } else { // Line 188
+                console.error("No element with class 'dragging' found"); // Line 189
+            }
+        });
     });
-    
-    // projectElement.appendChild(taskList);
-    // projectContainer.appendChild(projectElement);
+
+    const tasks = document.querySelectorAll('.task'); // Line 193
+    tasks.forEach(task => { // Line 194
+        task.draggable = true; // Line 195
+        task.addEventListener('dragstart', () => { // Line 196
+            task.classList.add('dragging'); // Line 197
+        });
+
+        task.addEventListener('dragend', () => { // Line 200
+            task.classList.remove('dragging'); // Line 201
+        });
+    });
+}
+
+function switchToProjectTab(project) {
+    // Hide all project contents
+    const allProjectContents = document.querySelectorAll('.project-content');
+    allProjectContents.forEach(content => {
+        content.style.display = 'none';
+    });
+
+    // Show the selected project content
+    const selectedProjectContent = document.querySelector(`#content-${project.projectName}`);
+    if (selectedProjectContent) {
+        selectedProjectContent.style.display = 'block';
+    }
+
+    // Update the active tab
+    const tabs = document.querySelectorAll('.tabs li');
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    const activeTab = document.querySelector(`[data-project="${project.projectName}"]`);
+    if (activeTab) {
+        activeTab.classList.add('active');
+    }
 }
 
 
 
 
-// Creating a new project and adding tasks
-let testProject = new Project('Project 1', '2023-12-31');
-let testProjectTwo = new Project('Project 1', '2023-12-31');
+// // Creating a new project and adding tasks
+// let testProject = new Project('Project 1', '2023-12-31');
+// let testProjectTwo = new Project('Project 1', '2023-12-31');
 
-let testTask = new Task(
-    'Finish the thing 1',
-    getTimestamp(),
-    getTimestamp(),
-    'High',
-    'Go to the place to do the thing, NOW',
-    'Remember to do that thing',
-    [
-        'Go to place',
-        'Do that thing', 
-    ],
-    'Not Started'
-);
+// let testTask = new Task(
+//     'Finish the thing 1',
+//     getTimestamp(),
+//     getTimestamp(),
+//     'High',
+//     'Go to the place to do the thing, NOW',
+//     'Remember to do that thing',
+//     [
+//         'Go to place',
+//         'Do that thing', 
+//     ],
+//     'Not Started'
+// );
 
-let testTaskTwo = new Task(
-    'Finish the thing 2',
-    getTimestamp(),
-    getTimestamp(),
-    'High',
-    'Go to the place to do the thing, NOW',
-    'Remember to do that thing',
-    [
-        'Go to place',
-        'Do that thing', 
-    ],
-    'Not Started'
-);
+// let testTaskTwo = new Task(
+//     'Finish the thing 2',
+//     getTimestamp(),
+//     getTimestamp(),
+//     'High',
+//     'Go to the place to do the thing, NOW',
+//     'Remember to do that thing',
+//     [
+//         'Go to place',
+//         'Do that thing', 
+//     ],
+//     'Not Started'
+// );
 
-testProject.addNewTask(testTask);
-testProject.addNewTask(testTaskTwo);
-testTaskTwo.addItemToCheckList('something', 'else');
-
-
+// testProject.addNewTask(testTask);
+// testProject.addNewTask(testTaskTwo);
+// testTaskTwo.addItemToCheckList('something', 'else');
 
 
 
-testTask.setStatusInProgress();
-testTask.setStatusComplete();
 
-testProject.setProjectInProgress()
-testProject.setProjectComplete()
 
-testTaskTwo.setTaskPriority('LOW')
+// testTask.setStatusInProgress();
+// testTask.setStatusComplete();
+
+// testProject.setProjectInProgress()
+// testProject.setProjectComplete()
+
+// testTaskTwo.setTaskPriority('LOW')
 
 
 

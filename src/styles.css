@@ -2,29 +2,33 @@
     font-family: 'Inter';
     src: url(./assets/Font/Inter/Inter-VariableFont_slnt\,wght.ttf);
 }
+
 @font-face {
     font-family: 'Cormorac-Bold';
     src: url(./assets/Font/Cormorant_Garamond/CormorantGaramond-Bold.ttf);
 }
+
 @font-face {
     font-family: 'Cormorac-Regular';
     src: url(./assets/Font/Cormorant_Garamond/CormorantGaramond-Regular.ttf);
 }
+
 @font-face {
     font-family: 'Cormorac-Italic';
     src: url(./assets/Font/Cormorant_Garamond/CormorantGaramond-Italic.ttf);
 }
+
 @font-face {
     font-family: 'Cormorac-BoldItalic';
     src: url(./assets/Font/Cormorant_Garamond/CormorantGaramond-BoldItalic.ttf);
 }
 
-:root{
+:root {
     --primpary-font: 'Inter';
     --secondary-font: 'Lobster';
     /* ORIGINAL  */
     /* --primary-color: #60656f56;  */
-    --primary-color: rgba(34, 35, 37); 
+    --primary-color: rgba(34, 35, 37);
     --primary-color-light: rgba(48, 49, 54);
     /* ORIGINAL */
     --primary-color-lighter: #6e6f72;
@@ -38,18 +42,18 @@
 
 
 
-*{
+* {
     box-sizing: border-box;
     margin: 0;
 }
 
-body{
+body {
     background-color: var(--black);
-    
+
 }
 
 
-#nav-bar{
+#nav-bar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -58,35 +62,40 @@ body{
     color: var(--tertiary-color);
 }
 
-#site-title{
+#site-title {
     font-family: var(--secondary-font);
     font-size: 3rem;
 }
 
-#main-content{
+#main-content {
     color: rgba(245, 245, 245, 0.694);
     font-family: var(--primpary-font);
 }
 
-#header{
+#header {
     /* border-bottom: var(--primary-color) solid 2px; */
 }
-.material-icons{
+
+.material-icons {
     /* color: whitesmoke; */
 }
 
-#side-bar{
+#side-bar {
     /* border-right: solid 2px var(--primary-color); */
 }
-#project-section{
+
+#project-section {
     background-color: var(--primary-color);
     border-radius: .3rem;
 }
-.button{
+
+.button {
     width: 9rem;
 }
 
-#add-project-button, #display-project-button, #display-all-tasks{
+#add-project-button,
+#display-project-button,
+#display-all-tasks {
     display: flex;
     align-items: center;
     margin: 1.5rem;
@@ -97,49 +106,55 @@ body{
     padding-right: .6rem;
     transition: 0.2s ease-in-out;
 }
-#add-project-button:hover{
+
+#add-project-button:hover {
     transition: 0.4s ease-in-out;
     background-color: var(--primary-color-solid);
     color: whitesmoke;
-    -webkit-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
-    box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
-}
-#display-project-button:hover{
-    transition: 0.4s ease-in-out;
-    background-color: var(--primary-color-solid);
-    color: whitesmoke;
-    -webkit-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
-    box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
-}
-#display-all-tasks:hover{
-    transition: 0.4s ease-in-out;
-    background-color: var(--primary-color-solid);
-    color: whitesmoke;
-    -webkit-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
-    box-shadow: 10px 10px 42px -14px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
 }
 
-#display-project-button .material-icons{
-    width: 30px;
+#display-project-button:hover {
+    transition: 0.4s ease-in-out;
+    background-color: var(--primary-color-solid);
+    color: whitesmoke;
+    -webkit-box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
 }
-#display-all-tasks .material-icons{
+
+#display-all-tasks:hover {
+    transition: 0.4s ease-in-out;
+    background-color: var(--primary-color-solid);
+    color: whitesmoke;
+    -webkit-box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
+}
+
+#display-project-button .material-icons {
     width: 30px;
 }
 
-#create-new-project{
+#display-all-tasks .material-icons {
+    width: 30px;
+}
+
+#create-new-project {
     /* display: flex; */
     align-items: center;
 }
-.project{
+
+.project {
     margin: 2rem;
     padding: 1rem;
     background-color: var(--primary-color-light);
     border-radius: .7rem;
 }
-.task{
+
+.task {
     margin-block: 1rem;
     background-color: var(--black);
     padding: 1rem;
@@ -159,34 +174,38 @@ body{
     padding-block: 5px;
     padding-inline: 15px;
     /* border: 1px solid #ccc; */
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     color: var(--secondary-font);
     background-color: var(--primary-color);
     border-radius: .3rem;
     border: none;
-    -webkit-box-shadow: 17px 22px 30px -4px rgba(0,0,0,0.75);
-    -moz-box-shadow: 17px 22px 30px -4px rgba(0,0,0,0.75);
-    box-shadow: 17px 22px 30px -4px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 17px 22px 30px -4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 17px 22px 30px -4px rgba(0, 0, 0, 0.75);
+    box-shadow: 17px 22px 30px -4px rgba(0, 0, 0, 0.75);
 
 
 }
-#project-form{
+
+#project-form {
     display: flex;
     align-items: center;
 }
-#name-section{
+
+#name-section {
     /* margin-inline-start: .1rem; */
     margin-block: 1.5rem;
-    
+
 }
-#name-section label{
+
+#name-section label {
     /* margin-block-end: 1rem; */
     margin-inline-end: 1rem;
 
-    
+
 }
-#project-name{
+
+#project-name {
     margin-inline-end: 2rem;
     max-width: 10rem;
     background-color: var(--black);
@@ -195,17 +214,19 @@ body{
     color: var(--secondary-color);
 }
 
-#due-date-section{
+#due-date-section {
     margin-block: 1.5rem;
     border-radius: .3rem;
-    
+
 }
-#due-date-section label{
+
+#due-date-section label {
     margin-block-end: 2rem;
     margin-inline-end: 2rem;
-    
+
 }
-#project-due-date{
+
+#project-due-date {
     max-width: 50px;
     background-color: var(--black);
     outline: none;
@@ -214,9 +235,10 @@ body{
     /* margin-inline-end: 2rem; */
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23999" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M7 10h10v2H7v-2zm0 4h10v2H7v-2zm0-8h10v2H7V6zm10-3H7V1H5v2H4c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2h-1V1h-2v2zM4 21V5h16v14H4z"/></svg>') no-repeat right 10px center;
     background-size: 24px 24px;
-    
+
 }
-#form-submit-button{
+
+#form-submit-button {
     display: flex;
     align-items: center;
     border: 0px;
@@ -228,154 +250,194 @@ body{
     transition: 0.2s ease-in-out;
     margin-inline: auto;
 }
-#form-submit-button:hover{
+
+#form-submit-button:hover {
     transition: 0.4s ease-in-out;
     background-color: var(--primary-color-solid);
     color: whitesmoke;
-    -webkit-box-shadow: 11px 17px 38px 4px rgba(0,0,0,0.75);
--moz-box-shadow: 11px 17px 38px 4px rgba(0,0,0,0.75);
-box-shadow: 11px 17px 38px 4px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 11px 17px 38px 4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 11px 17px 38px 4px rgba(0, 0, 0, 0.75);
+    box-shadow: 11px 17px 38px 4px rgba(0, 0, 0, 0.75);
 }
 
 input[type="text"]:focus {
-    outline: 2px solid var(--tertiary-color); /* Change #007bff to your desired color */
+    outline: 2px solid var(--tertiary-color);
+    /* Change #007bff to your desired color */
 }
 
 /* PROJECT ELEMENT STYLING */
 /* ALSO REFERENCED ABOVE */
-.project{
-
-}
+.project {}
 
 
 /* INDIVIDUAL PROJECT STYLING */
-#project-header-container{
+#project-header-container {
     text-align: center;
 }
 
-#project-header{
+#project-header {
     letter-spacing: .2rem;
     margin-block-end: .75rem;
 }
-#project-status{
+
+#project-status {
     font-weight: 200;
 }
-#project-due{
+
+#project-due {
     font-weight: 200;
 
 }
 
 
 /* TASK STYLING */
-.task{
-
-}
+.task {}
 
 
 
 
-.tabs li { 
+.tabs li {
     /* Makes a horizontal row */
-    float: left; 
+    float: left;
     font-family: var(--primpary-font);
     list-style-type: none;
-    position: relative; 
-  }
-.tabs li:first-child { 
+    position: relative;
+}
+
+.tabs li:first-child {
     /* Makes a horizontal row */
-    float: left; 
-      
+    float: left;
+
     /* So the psueudo elements can be
        abs. positioned inside */
-    position: relative; 
+    position: relative;
     margin-inline-start: 11rem;
-  }
-  .tabs a { 
+}
+
+.tabs a {
     /* Make them block level
        and only as wide as they need */
-    float: left; 
-    padding: 10px 40px; 
+    float: left;
+    padding: 10px 40px;
     text-decoration: none;
-    
-    /* Default colors */ 
+
+    /* Default colors */
     color: var(--black);
-    background: var(--secondary-color); 
-    
+    background: var(--secondary-color);
+
     /* Only round the top corners */
     -webkit-border-top-left-radius: 15px;
     -webkit-border-top-right-radius: 15px;
     -moz-border-radius-topleft: 15px;
     -moz-border-radius-topright: 15px;
     border-top-left-radius: 15px;
-    border-top-right-radius: 15px; 
-  }
-  .tabs .active {
+    border-top-right-radius: 15px;
+}
+
+.tabs .active {
     /* Highest, active tab is on top */
     z-index: 3;
-  }
-  .tabs .active a { 
+}
+
+.tabs .active a {
     /* Colors when tab is active */
-    background: var(--primary-color); 
-    color: var(--secondary-color); 
-  }
-  .tabs li:before, .tabs li:after, 
-  .tabs li a:before, .tabs li a:after {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.tabs li:before,
+.tabs li:after,
+.tabs li a:before,
+.tabs li a:after {
     /* All pseudo elements are 
        abs. positioned and on bottom */
     position: absolute;
     bottom: 0;
-  }
-  /* Only the first, last, and active
+}
+
+/* Only the first, last, and active
      tabs need pseudo elements at all */
-  .tabs li:last-child:after,   .tabs li:last-child a:after,
-  .tabs li:first-child:before, .tabs li:first-child a:before,
-  .tabs .active:after,   .tabs .active:before, 
-  .tabs .active a:after, .tabs .active a:before {
+.tabs li:last-child:after,
+.tabs li:last-child a:after,
+.tabs li:first-child:before,
+.tabs li:first-child a:before,
+.tabs .active:after,
+.tabs .active:before,
+.tabs .active a:after,
+.tabs .active a:before {
     content: "";
-  }
-  .tabs .active:before, .tabs .active:after {
-    background: var(--primary-color); 
-    
+}
+
+.tabs .active:before,
+.tabs .active:after {
+    background: var(--primary-color);
+
     /* Squares below circles */
     z-index: 1;
-  }
-  /* Squares */
-  .tabs li:before, .tabs li:after {
+}
+
+/* Squares */
+.tabs li:before,
+.tabs li:after {
     background: var(--secondary-color);
     width: 10px;
     height: 10px;
-  }
-  .tabs li:before {
-    left: -10px;      
-  }
-  .tabs li:after { 
+}
+
+.tabs li:before {
+    left: -10px;
+}
+
+.tabs li:after {
     right: -10px;
-  }
-  /* Circles */
-  .tabs li a:after, .tabs li a:before {
-    width: 20px; 
+}
+
+/* Circles */
+.tabs li a:after,
+.tabs li a:before {
+    width: 20px;
     height: 20px;
     /* Circles are circular */
     -webkit-border-radius: 10px;
-    -moz-border-radius:    10px;
-    border-radius:         10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
     background: var(--black);
-    
+
     /* Circles over squares */
     z-index: 2;
-  }
-  .tabs .active a:after, .tabs .active a:before {
+}
+
+.tabs .active a:after,
+.tabs .active a:before {
     background: var(--secondary-color);
-  }
-  /* First and last tabs have different
+}
+
+/* First and last tabs have different
      outside color needs */
-  .tabs li:first-child.active a:before,
-  .tabs li:last-child.active a:after {
+.tabs li:first-child.active a:before,
+.tabs li:last-child.active a:after {
     background: var(--black);
-  }
-  .tabs li a:before {
+}
+
+.tabs li a:before {
     left: -20px;
-  }
-  .tabs li a:after {
+}
+
+.tabs li a:after {
     right: -20px;
-  }
+}
+
+.task {
+    margin-block: 1rem;
+    background-color: var(--black);
+    padding: 1rem;
+    border-radius: .4rem;
+    cursor: pointer;
+}
+
+.column {
+    border: 1px solid var(--primary-color-light);
+    padding: 1rem;
+    background-color: var(--primary-color);
+    border-radius: .3rem;
+}

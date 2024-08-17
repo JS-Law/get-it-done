@@ -10,6 +10,10 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
 
+// import { Project, Task, displayTasks, getTimestamp } from "./helpers";
+// import flatpickr from "flatpickr";
+// import "flatpickr/dist/flatpickr.min.css";
+
 document.addEventListener('DOMContentLoaded', () => {
     const contentContainer = document.querySelector('#main-content');
     contentContainer.style.display = 'grid';
@@ -25,8 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let projectSection = document.querySelector('#project-section');
     projectSection.style.display = 'flex';
-    
-    new ElementAppender(contentContainer, sideBar, projectSection).appendElements();
 
     const addProjectButton = document.getElementById('add-project-button');
     const projectFormContainer = document.getElementById('project-form-container');
@@ -54,7 +56,73 @@ document.addEventListener('DOMContentLoaded', () => {
             projectFormContainer.classList.add('hidden');
         }
     });
+
+    // Example projects and tasks for demonstration
+    let testProject = new Project('Plant Garden', 'Dec 10th, 2024');
+    let testProjectTwo = new Project('Finish Todo List', 'Dec 10th, 2024');
+
+    let testTask = new Task(
+        'Get dirt',
+        getTimestamp(),
+        getTimestamp(),
+        'High',
+        'Go to the place to do the thing, NOW',
+        'Remember to do that thing',
+        ['Go to place', 'Do that thing'],
+        'Not Started'
+    );
+
+    let testTaskTwo = new Task(
+        'Finish the thing 2',
+        getTimestamp(),
+        getTimestamp(),
+        'Low',
+        'Go to the place to do the thing, NOW',
+        'Remember to do that thing',
+        ['Go to place', 'Do that thing'],
+        'Not Started'
+    );
+
+    testProject.addNewTask(testTask);
+    testProject.addNewTask(testTaskTwo);
+
+    testProjectTwo.addNewTask(testTaskTwo);
+    testProjectTwo.addNewTask(testTask);
+
+    // Display the projects initially
+    displayTasks(testProject);
+    displayTasks(testProjectTwo);
+
+    // Set the first project as the default active project tab
+    switchToProjectTab(testProject);
 });
+
+// Function to switch between project tabs
+function switchToProjectTab(project) {
+    // Hide all project contents
+    const allProjectContents = document.querySelectorAll('.project-content');
+    allProjectContents.forEach(content => {
+        content.style.display = 'none';
+    });
+
+    // Show the selected project content
+    const selectedProjectContent = document.querySelector(`#content-${project.projectName}`);
+    if (selectedProjectContent) {
+        selectedProjectContent.style.display = 'block';
+    }
+
+    // Update the active tab
+    const tabs = document.querySelectorAll('.tabs li');
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    const activeTab = document.querySelector(`[data-project="${project.projectName}"]`);
+    if (activeTab) {
+        activeTab.classList.add('active');
+    }
+}
+
 
 
 let testProject = new Project('Plant Garden', 'Dec 10th, 2024');
@@ -78,7 +146,7 @@ let testTaskTwo = new Task(
     'Finish the thing 2',
     getTimestamp(),
     getTimestamp(),
-    'High',
+    'low',
     'Go to the place to do the thing, NOW',
     'Remember to do that thing',
     [

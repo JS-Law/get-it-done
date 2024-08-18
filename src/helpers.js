@@ -119,7 +119,7 @@ function displayTasks(project) {
     let projectContent = document.querySelector(`#content-${project.projectName}`);
     if (!projectContent) {
         projectContent = document.createElement('div');
-        projectContent.id = `content-${project.projectName}`;
+        projectContent.id = `content-${project.projectName.replace(/\s+/g, '_')}`;
         projectContent.classList.add('project-content');
 
         const projectSection = document.querySelector('#project-section');
@@ -221,10 +221,19 @@ function switchToProjectTab(project) {
         content.style.display = 'none';
     });
 
+    // Log the project name and the ID we're trying to select
+    console.log(`Switching to project tab: ${project.projectName}`);
+    console.log(`Looking for element with ID: content-${project.projectName}`);
+
     // Show the selected project content
-    const selectedProjectContent = document.querySelector(`#content-${project.projectName}`);
+    const selectedProjectContent = document.querySelector(`#content-${project.projectName.replace(/\s+/g, '_')}`);
+
+    console.log('Selected project content:', selectedProjectContent); // Log the element found
+
     if (selectedProjectContent) {
         selectedProjectContent.style.display = 'block';
+    } else {
+        console.error(`No element found with ID: content-${project.projectName}`);
     }
 
     // Update the active tab
@@ -238,6 +247,7 @@ function switchToProjectTab(project) {
         activeTab.classList.add('active');
     }
 }
+
 
 
 

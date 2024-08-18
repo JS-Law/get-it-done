@@ -121,9 +121,12 @@ function displayTasks(project) {
         projectContent = document.createElement('div');
         projectContent.id = `content-${project.projectName.replace(/\s+/g, '_')}`;
         projectContent.classList.add('project-content');
-
+        projectContent.style.width = '100%'
+        projectContent.style.alignContent = 'space-between';
+        projectContent.style.justifyContent = 'space-between';
         const projectSection = document.querySelector('#project-section');
         projectSection.appendChild(projectContent);
+        // projectSection.style.width = '100%'
     }
 
     // Clear previous content
@@ -134,16 +137,21 @@ function displayTasks(project) {
     highPriorityColumn.classList.add('column');
     highPriorityColumn.id = 'high-priority-column';
     highPriorityColumn.textContent = 'High Priority';
+    highPriorityColumn.style.width = '33.3%'
 
+    
     const mediumPriorityColumn = document.createElement('div');
     mediumPriorityColumn.classList.add('column');
     mediumPriorityColumn.id = 'medium-priority-column';
     mediumPriorityColumn.textContent = 'Medium Priority';
-
+    mediumPriorityColumn.style.width = '33.3%'
+    
     const lowPriorityColumn = document.createElement('div');
     lowPriorityColumn.classList.add('column');
     lowPriorityColumn.id = 'low-priority-column';
     lowPriorityColumn.textContent = 'Low Priority';
+    lowPriorityColumn.style.width = '33.3%'
+    
 
     projectContent.appendChild(highPriorityColumn);
     projectContent.appendChild(mediumPriorityColumn);
@@ -211,7 +219,7 @@ function makeTasksDraggable() { // Line 172
         task.addEventListener('dragend', () => { // Line 200
             task.classList.remove('dragging'); // Line 201
         });
-    });
+    }); 
 }
 
 function switchToProjectTab(project) {
@@ -231,7 +239,7 @@ function switchToProjectTab(project) {
     console.log('Selected project content:', selectedProjectContent); // Log the element found
 
     if (selectedProjectContent) {
-        selectedProjectContent.style.display = 'block';
+        selectedProjectContent.style.display = 'flex';
     } else {
         console.error(`No element found with ID: content-${project.projectName}`);
     }

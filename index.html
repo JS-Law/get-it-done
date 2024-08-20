@@ -54,13 +54,13 @@
     </content>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script>
-		$(function() {
-			$("li").click(function(e) {
-			  e.preventDefault();
-			  $("li").removeClass("active");
-			  $(this).addClass("active");
-			});
-		});
+        $(function() {
+            $("#project-tabs li").click(function(e) { // Target only the list items inside #project-tabs
+                e.preventDefault();
+                $("#project-tabs li").removeClass("active"); // Remove active class only from project tabs
+                $(this).addClass("active"); // Add active class to the clicked tab
+            });
+        });
 	</script>
 <script defer src="bundle.js"></script></body>
 </html>

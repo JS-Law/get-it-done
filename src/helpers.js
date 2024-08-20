@@ -161,7 +161,12 @@ function displayTasks(project) {
     project.getTasks().forEach(task => {
         const taskElement = document.createElement('div');
         taskElement.classList.add('task');
-        taskElement.textContent = task.name;
+        
+        const taskTitleElement = document.createElement('h3');
+        taskTitleElement.textContent = task.name;
+        taskTitleElement.classList.add('task-title');
+
+        taskElement.appendChild(taskTitleElement);
         
         const checklist = document.createElement('ul');
         checklist.classList.add('checklist');

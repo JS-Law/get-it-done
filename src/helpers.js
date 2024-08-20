@@ -162,7 +162,32 @@ function displayTasks(project) {
         const taskElement = document.createElement('div');
         taskElement.classList.add('task');
         taskElement.textContent = task.name;
+        
+        const checklist = document.createElement('ul');
+        checklist.classList.add('checklist');
 
+        task.checkList.forEach((item, index) => {
+            const listItem = document.createElement('li');
+            listItem.className = 'subchecklist'
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `check-${task.name}-${index}`;
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    listItem.style.display = 'none'; // Hide the item when checked
+                    task.removeItemFromCheckList(item);
+                }
+            });
+
+            const label = document.createElement('label');
+            label.setAttribute('for', checkbox.id);
+            label.textContent = item;
+
+            listItem.appendChild(checkbox);
+            listItem.appendChild(label);
+            checklist.appendChild(listItem);
+        });
+        taskElement.appendChild(checklist)
         switch (task.priority) {
             case 'High':
                 highPriorityColumn.appendChild(taskElement);

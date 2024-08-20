@@ -168,25 +168,67 @@ function displayTasks(project) {
 
         task.checkList.forEach((item, index) => {
             const listItem = document.createElement('li');
-            listItem.className = 'subchecklist'
+            listItem.className = 'subchecklist';
+        
+            // Create the container for the checkbox
+            const container = document.createElement('div');
+            container.className = 'container';
+        
+            // Create the checkbox input
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
-            checkbox.id = `check-${task.name}-${index}`;
-            checkbox.addEventListener('change', () => {
-                if (checkbox.checked) {
-                    listItem.style.display = 'none'; // Hide the item when checked
-                    task.removeItemFromCheckList(item);
-                }
-            });
-
+            checkbox.id = `cbx-${task.name}-${index}`;  // Unique ID for each checkbox
+            checkbox.style.display = 'none';  // Hide the default checkbox
+        
+            // Create the label and SVG for the styled checkbox
             const label = document.createElement('label');
             label.setAttribute('for', checkbox.id);
-            label.textContent = item;
-
-            listItem.appendChild(checkbox);
-            listItem.appendChild(label);
+            label.className = 'check';
+        
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", "18px");
+            svg.setAttribute("height", "18px");
+            svg.setAttribute("viewBox", "0 0 18 18");
+        
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", "M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z");
+        
+            const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+            polyline.setAttribute("points", "1 9 7 14 15 4");
+        
+            // Append SVG elements to the label
+            svg.appendChild(path);
+            svg.appendChild(polyline);
+            label.appendChild(svg);
+        
+            // Append the checkbox and label to the container
+            container.appendChild(checkbox);
+            container.appendChild(label);
+        
+            // Append the container (checkbox) to the list item
+            listItem.appendChild(container);
+        
+            // Create a separate span for the task content (item)
+            const taskContent = document.createElement('span');
+            taskContent.textContent = item;  // Set the task content here
+            listItem.appendChild(taskContent);
+        
+            // Add event listener for the checkbox
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');  // Cross out the item
+                    setTimeout(() => {
+                        listItem.style.display = 'none';  // Hide the item after the fade-out
+                        task.removeItemFromCheckList(item);
+                    }, 1000);  // Adjust the timeout to match the fade-out duration
+                }
+            });
+        
+            // Finally, append the list item to the checklist
             checklist.appendChild(listItem);
         });
+        
+
         taskElement.appendChild(checklist)
         switch (task.priority) {
             case 'High':

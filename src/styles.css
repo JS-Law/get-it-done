@@ -474,8 +474,8 @@ input[type="text"]:focus {
   position: absolute;
   top: -15px;
   left: -15px;
-  width: 48px;
-  height: 48px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: rgba(34,50,84,0.03);
   opacity: 0;

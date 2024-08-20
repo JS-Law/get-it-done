@@ -448,6 +448,7 @@ input[type="text"]:focus {
 
 .subchecklist {
     transition: all 0.5s ease; /* Smooth transition for crossing out */
+    margin-block: .5rem;
 }
 
 .subchecklist.completed {
@@ -457,6 +458,8 @@ input[type="text"]:focus {
 }
 .container {
     display: inline-block; /* Ensures the container is inline with the text */
+    margin-inline-end: .5rem;
+    text-align: center;
 }
 
 .check {
@@ -527,4 +530,8 @@ input[type="checkbox"]:checked + .check svg polyline {
   stroke-dashoffset: 42;
   transition: all 0.2s linear;
   transition-delay: 0.15s;
+}
+
+.task-title{
+    margin-block-end: 1rem;
 }

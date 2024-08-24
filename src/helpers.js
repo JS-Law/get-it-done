@@ -95,7 +95,7 @@ class Task {
 }
 
 function displayTasks(project) {
-    // Locate the project tab or create it if it doesn't exist
+    // Locate or create the project tab
     let projectTab = document.querySelector(`[data-project="${project.projectName}"]`);
     if (!projectTab) {
         const tabsGroup = document.querySelector('.tabs');
@@ -109,151 +109,229 @@ function displayTasks(project) {
         projectTab.appendChild(projectTabTitleLink);
         tabsGroup.appendChild(projectTab);
 
-        // Add click event to switch tabs and show relevant tasks
         projectTabTitleLink.addEventListener('click', () => {
             switchToProjectTab(project);
         });
     }
 
-    // Create the content container for tasks if it doesn't exist
+    // Create or locate the content container for tasks
     let projectContent = document.querySelector(`#content-${project.projectName}`);
     if (!projectContent) {
         projectContent = document.createElement('div');
         projectContent.id = `content-${project.projectName.replace(/\s+/g, '_')}`;
         projectContent.classList.add('project-content');
-        projectContent.style.width = '100%'
-        projectContent.style.alignContent = 'space-between';
-        projectContent.style.justifyContent = 'space-between';
+        projectContent.style.width = '100%';
+
         const projectSection = document.querySelector('#project-section');
         projectSection.appendChild(projectContent);
-        // projectSection.style.width = '100%'
     }
 
-    // Clear previous content
-    projectContent.innerHTML = '';
+    projectContent.innerHTML = ''; // Clear previous content
 
     // Create columns for High, Medium, Low priorities
-    const highPriorityColumn = document.createElement('div');
-    highPriorityColumn.classList.add('column');
-    highPriorityColumn.id = 'high-priority-column';
-    highPriorityColumn.textContent = 'High Priority';
-    highPriorityColumn.style.width = '33.3%'
-
-    
-    const mediumPriorityColumn = document.createElement('div');
-    mediumPriorityColumn.classList.add('column');
-    mediumPriorityColumn.id = 'medium-priority-column';
-    mediumPriorityColumn.textContent = 'Medium Priority';
-    mediumPriorityColumn.style.width = '33.3%'
-    
-    const lowPriorityColumn = document.createElement('div');
-    lowPriorityColumn.classList.add('column');
-    lowPriorityColumn.id = 'low-priority-column';
-    lowPriorityColumn.textContent = 'Low Priority';
-    lowPriorityColumn.style.width = '33.3%'
-    
+    const highPriorityColumn = createPriorityColumn('High', 'High Priority', project, 'high');
+    const mediumPriorityColumn = createPriorityColumn('Medium', 'Medium Priority', project, 'medium');
+    const lowPriorityColumn = createPriorityColumn('Low', 'Low Priority', project, 'low');
 
     projectContent.appendChild(highPriorityColumn);
     projectContent.appendChild(mediumPriorityColumn);
     projectContent.appendChild(lowPriorityColumn);
 
-    // Add tasks to the appropriate column based on priority
-    project.getTasks().forEach(task => {
-        const taskElement = document.createElement('div');
-        taskElement.classList.add('task');
-        
-        const taskTitleElement = document.createElement('h3');
-        taskTitleElement.textContent = task.name;
-        taskTitleElement.classList.add('task-title');
-
-        taskElement.appendChild(taskTitleElement);
-        
-        const checklist = document.createElement('ul');
-        checklist.classList.add('checklist');
-
-        task.checkList.forEach((item, index) => {
-            const listItem = document.createElement('li');
-            listItem.className = 'subchecklist';
-        
-            // Create the container for the checkbox
-            const container = document.createElement('div');
-            container.className = 'container';
-        
-            // Create the checkbox input
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `cbx-${task.name}-${index}`;  // Unique ID for each checkbox
-            checkbox.style.display = 'none';  // Hide the default checkbox
-        
-            // Create the label and SVG for the styled checkbox
-            const label = document.createElement('label');
-            label.setAttribute('for', checkbox.id);
-            label.className = 'check';
-        
-            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            svg.setAttribute("width", "18px");
-            svg.setAttribute("height", "18px");
-            svg.setAttribute("viewBox", "0 0 18 18");
-        
-            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute("d", "M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z");
-        
-            const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-            polyline.setAttribute("points", "1 9 7 14 15 4");
-        
-            // Append SVG elements to the label
-            svg.appendChild(path);
-            svg.appendChild(polyline);
-            label.appendChild(svg);
-        
-            // Append the checkbox and label to the container
-            container.appendChild(checkbox);
-            container.appendChild(label);
-        
-            // Append the container (checkbox) to the list item
-            listItem.appendChild(container);
-        
-            // Create a separate span for the task content (item)
-            const taskContent = document.createElement('span');
-            taskContent.textContent = item;  // Set the task content here
-            listItem.appendChild(taskContent);
-        
-            // Add event listener for the checkbox
-            checkbox.addEventListener('change', () => {
-                if (checkbox.checked) {
-                    listItem.classList.add('completed');  // Cross out the item
-                    setTimeout(() => {
-                        listItem.style.display = 'none';  // Hide the item after the fade-out
-                        task.removeItemFromCheckList(item);
-                    }, 1000);  // Adjust the timeout to match the fade-out duration
-                }
-            });
-        
-            // Finally, append the list item to the checklist
-            checklist.appendChild(listItem);
-        });
-        
-
-        taskElement.appendChild(checklist)
-        switch (task.priority) {
-            case 'High':
-                highPriorityColumn.appendChild(taskElement);
-                break;
-            case 'Medium':
-                mediumPriorityColumn.appendChild(taskElement);
-                break;
-            case 'Low':
-                lowPriorityColumn.appendChild(taskElement);
-                break;
-            default:
-                lowPriorityColumn.appendChild(taskElement);
-                break;
-        }
-    });
-
     makeTasksDraggable();
 }
 
+function showTaskInputForm(column, priority, project) {
+    const form = document.createElement('div');
+    form.classList.add('task-input-form');
+
+    const taskNameInput = document.createElement('input');
+    taskNameInput.type = 'text';
+    taskNameInput.placeholder = 'Task Name';
+
+    const taskDescInput = document.createElement('textarea');
+    taskDescInput.placeholder = 'Task Description';
+
+    const addButton = document.createElement('button');
+    addButton.textContent = 'Add Task';
+    addButton.classList.add('add-task-button');
+
+    addButton.addEventListener('click', () => {
+        const taskName = taskNameInput.value;
+        const taskDescription = taskDescInput.value;
+        if (taskName) {
+            const newTask = new Task(taskName, getTimestamp(), getTimestamp(), priority, taskDescription, '', [], 'Not Started');
+            project.addNewTask(newTask);
+            const taskElement = createTaskElement(newTask);
+            makeTaskDraggable(taskElement);
+            column.appendChild(taskElement);
+            form.remove();
+        }
+    });
+
+    form.appendChild(taskNameInput);
+    form.appendChild(taskDescInput);
+    form.appendChild(addButton);
+    column.appendChild(form);
+}
+
+function createPriorityColumn(priority, title, project, priorityClass) {
+    const column = document.createElement('div');
+    column.classList.add('column');
+    column.id = `${priority.toLowerCase()}-priority-column`;
+    column.style.width = '33.3%';
+
+    const columnHeader = document.createElement('div');
+    columnHeader.style.display = 'flex';
+    columnHeader.style.justifyContent = 'space-between';
+
+    const columnTitle = document.createElement('h2');
+    columnTitle.id = `${priority.toLowerCase()}-priority-column-title`;
+    columnTitle.textContent = title;
+    columnTitle.classList.add('column-titles');
+
+    const addTaskButton = document.createElement('button');
+    addTaskButton.classList.add('column-button');
+    const icon = document.createElement('span');
+    icon.className = 'material-icons';
+    icon.textContent = 'add';
+    addTaskButton.appendChild(icon);
+    const buttonText = document.createTextNode('Add Task');
+    addTaskButton.appendChild(buttonText);
+
+    addTaskButton.addEventListener('click', () => showTaskInputForm(column, priority, project));
+
+    columnHeader.appendChild(columnTitle);
+    columnHeader.appendChild(addTaskButton);
+    column.appendChild(columnHeader);
+
+    project.getTasks().forEach(task => {
+        if (task.priority === priority) {
+            const taskElement = createTaskElement(task);
+            column.appendChild(taskElement);
+        }
+    });
+
+    return column;
+}
+
+
+
+
+function createTaskElement(task) {
+    const taskElement = document.createElement('div');
+    taskElement.classList.add('task');
+
+    const taskTitleElement = document.createElement('h3');
+    taskTitleElement.textContent = task.name;
+    taskTitleElement.classList.add('task-title');
+
+    const divider = document.createElement('hr');
+    divider.classList.add('divider');
+
+    const checklist = document.createElement('ul');
+    checklist.classList.add('checklist');
+
+    task.checkList.forEach((item, index) => {
+        const listItem = createChecklistItem(item, task, index);
+        checklist.appendChild(listItem);
+    });
+
+    const addSubtaskButton = document.createElement('button');
+    addSubtaskButton.classList.add('add-subtask-button');
+    addSubtaskButton.textContent = 'Add Subtask';
+
+    addSubtaskButton.addEventListener('click', () => {
+        const newSubtaskInput = document.createElement('input');
+        newSubtaskInput.type = 'text';
+        newSubtaskInput.placeholder = 'Subtask Name';
+
+        const saveSubtaskButton = document.createElement('button');
+        saveSubtaskButton.textContent = 'Save';
+        saveSubtaskButton.addEventListener('click', () => {
+            if (newSubtaskInput.value) {
+                task.addItemToCheckList(newSubtaskInput.value);
+                const newSubtaskItem = createChecklistItem(newSubtaskInput.value, task, task.checkList.length - 1);
+                checklist.appendChild(newSubtaskItem);
+                makeTasksDraggable(); // Reapply draggable functionality
+                newSubtaskInput.remove();
+                saveSubtaskButton.remove();
+            }
+        });
+
+        taskElement.appendChild(newSubtaskInput);
+        taskElement.appendChild(saveSubtaskButton);
+    });
+
+    taskElement.appendChild(taskTitleElement);
+    taskElement.appendChild(divider);
+    taskElement.appendChild(checklist);
+    taskElement.appendChild(addSubtaskButton);
+
+    return taskElement;
+}
+
+function createChecklistItem(item, task, index) {
+    const listItem = document.createElement('li');
+    listItem.className = 'subchecklist';
+
+    const container = document.createElement('div');
+    container.className = 'container';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = `cbx-${task.name}-${index}`;
+    checkbox.style.display = 'none';
+
+    const label = document.createElement('label');
+    label.setAttribute('for', checkbox.id);
+    label.className = 'check';
+
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "18px");
+    svg.setAttribute("height", "18px");
+    svg.setAttribute("viewBox", "0 0 18 18");
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z");
+
+    const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    polyline.setAttribute("points", "1 9 7 14 15 4");
+
+    svg.appendChild(path);
+    svg.appendChild(polyline);
+    label.appendChild(svg);
+    container.appendChild(checkbox);
+    container.appendChild(label);
+
+    listItem.appendChild(container);
+
+    const taskContent = document.createElement('span');
+    taskContent.textContent = item;
+    listItem.appendChild(taskContent);
+
+    checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+            listItem.classList.add('completed');
+            setTimeout(() => {
+                listItem.style.display = 'none';
+                task.removeItemFromCheckList(item);
+            }, 1000);
+        }
+    });
+
+    return listItem;
+}
+
+function makeTaskDraggable(task) {
+    task.draggable = true;
+    task.addEventListener('dragstart', () => {
+        task.classList.add('dragging');
+    });
+
+    task.addEventListener('dragend', () => {
+        task.classList.remove('dragging');
+    });
+}
 
 
 function makeTasksDraggable() { // Line 172
@@ -327,59 +405,6 @@ function switchToProjectTab(project) {
         activeTab.classList.add('active');
     }
 }
-
-
-
-
-
-// // Creating a new project and adding tasks
-// let testProject = new Project('Project 1', '2023-12-31');
-// let testProjectTwo = new Project('Project 1', '2023-12-31');
-
-// let testTask = new Task(
-//     'Finish the thing 1',
-//     getTimestamp(),
-//     getTimestamp(),
-//     'High',
-//     'Go to the place to do the thing, NOW',
-//     'Remember to do that thing',
-//     [
-//         'Go to place',
-//         'Do that thing', 
-//     ],
-//     'Not Started'
-// );
-
-// let testTaskTwo = new Task(
-//     'Finish the thing 2',
-//     getTimestamp(),
-//     getTimestamp(),
-//     'High',
-//     'Go to the place to do the thing, NOW',
-//     'Remember to do that thing',
-//     [
-//         'Go to place',
-//         'Do that thing', 
-//     ],
-//     'Not Started'
-// );
-
-// testProject.addNewTask(testTask);
-// testProject.addNewTask(testTaskTwo);
-// testTaskTwo.addItemToCheckList('something', 'else');
-
-
-
-
-
-// testTask.setStatusInProgress();
-// testTask.setStatusComplete();
-
-// testProject.setProjectInProgress()
-// testProject.setProjectComplete()
-
-// testTaskTwo.setTaskPriority('LOW')
-
 
 
 export {

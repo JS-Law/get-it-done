@@ -174,7 +174,7 @@ function showTaskInputForm(column, priority, project) {
     column.appendChild(form);
 }
 
-function createPriorityColumn(priority, title, project, priorityClass) {
+function createPriorityColumn(priority, title, project) {
     const column = document.createElement('div');
     column.classList.add('column');
     column.id = `${priority.toLowerCase()}-priority-column`;
@@ -204,8 +204,9 @@ function createPriorityColumn(priority, title, project, priorityClass) {
     columnHeader.appendChild(addTaskButton);
     column.appendChild(columnHeader);
 
+    // Iterate over the tasks to add them to the column
     project.getTasks().forEach(task => {
-        if (task.priority === priority) {
+        if (task.priority.toLowerCase() === priority.toLowerCase()) { // Case-insensitive comparison
             const taskElement = createTaskElement(task);
             column.appendChild(taskElement);
         }
@@ -220,6 +221,11 @@ function createPriorityColumn(priority, title, project, priorityClass) {
 function createTaskElement(task) {
     const taskElement = document.createElement('div');
     taskElement.classList.add('task');
+    
+    const taskTitleHeader = document.createElement('div')
+    taskTitleHeader.id = 'task-header-container'
+    taskTitleHeader.style.display = 'flex'
+    taskTitleHeader.style.justifyContent = 'space-between'
 
     const taskTitleElement = document.createElement('h3');
     taskTitleElement.textContent = task.name;
@@ -239,12 +245,13 @@ function createTaskElement(task) {
     const addSubtaskButton = document.createElement('button');
     addSubtaskButton.classList.add('add-subtask-button');
     addSubtaskButton.textContent = 'Add Subtask';
+    addSubtaskButton.style.marginTop = '0'
+    addSubtaskButton.style.marginBottom = '15px'
 
     addSubtaskButton.addEventListener('click', () => {
         const newSubtaskInput = document.createElement('input');
         newSubtaskInput.type = 'text';
         newSubtaskInput.placeholder = 'Subtask Name';
-
         const saveSubtaskButton = document.createElement('button');
         saveSubtaskButton.textContent = 'Save';
         saveSubtaskButton.addEventListener('click', () => {
@@ -262,10 +269,12 @@ function createTaskElement(task) {
         taskElement.appendChild(saveSubtaskButton);
     });
 
-    taskElement.appendChild(taskTitleElement);
+    taskElement.appendChild(taskTitleHeader);
+    taskTitleHeader.appendChild(taskTitleElement)
+    taskTitleHeader.appendChild(addSubtaskButton)
     taskElement.appendChild(divider);
     taskElement.appendChild(checklist);
-    taskElement.appendChild(addSubtaskButton);
+    // taskElement.appendChild(addSubtaskButton);
 
     return taskElement;
 }

@@ -116,6 +116,22 @@ body {
     -moz-box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
     box-shadow: 10px 10px 42px -14px rgba(0, 0, 0, 0.75);
 }
+.add-subtask-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-subtask-button:hover {
+    background-color: var(--primary-color-solid);
+    color: whitesmoke;
+}
 
 .column-button{
     display: flex;

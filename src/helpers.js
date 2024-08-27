@@ -63,22 +63,36 @@ class Task {
         this.priority = priority;
         this.description = description;
         this.notes = notes;
-        this.checkList = checkList;
+        this.checkList = checkList.map(item => ({ name: item, completed: false }));
         this.status = status;
     }
-    
+
     addItemToCheckList(...itemsToAdd){
-        this.checkList.push(...itemsToAdd);
+        this.checkList.push(...itemsToAdd.map(item => ({ name: item, completed: false })));
     }
     
-    removeItemFromCheckList(...itemsToRemove){
-        itemsToRemove.forEach(item => {
-            const index = this.checkList.indexOf(item);
-            if (index > -1) {
-                this.checkList.splice(index, 1);
-            }
-        });
+    removeItemFromCheckList(itemToRemove){
+        this.checkList = this.checkList.filter(item => item.name !== itemToRemove);
     }
+
+    completeSubtask(itemName) {
+        const subtask = this.checkList.find(item => item.name === itemName);
+        if (subtask) {
+            subtask.completed = true;
+            this.checkIfAllSubtasksCompleted(); // Make sure taskElement is passed if needed
+        }
+    }
+    
+    checkIfAllSubtasksCompleted(taskElement) {
+        const allCompleted = this.checkList.every(item => item.completed);
+        if (allCompleted && taskElement) { // Ensure taskElement is valid
+            this.setStatusComplete();
+            // taskElement.classList.remove('task')
+            taskElement.classList.add('task-completed');
+        }
+    }
+    
+    
     
     setStatusComplete(){
         this.status = 'Complete';
@@ -91,8 +105,8 @@ class Task {
     setTaskPriority(taskPriority){
         this.priority = taskPriority;
     }
-
 }
+
 
 function displayTasks(project) {
     // Locate or create the project tab
@@ -157,7 +171,7 @@ function showTaskInputForm(column, priority, project) {
 
     addButton.addEventListener('click', () => {
         const taskName = taskNameInput.value;
-        const taskDescription = taskDescInput.value;
+        const taskDescription = 'placeholder';
         if (taskName) {
             const newTask = new Task(taskName, getTimestamp(), getTimestamp(), priority, taskDescription, '', [], 'Not Started');
             project.addNewTask(newTask);
@@ -169,7 +183,7 @@ function showTaskInputForm(column, priority, project) {
     });
 
     form.appendChild(taskNameInput);
-    form.appendChild(taskDescInput);
+    // form.appendChild(taskDescInput);
     form.appendChild(addButton);
     column.appendChild(form);
 }
@@ -238,48 +252,51 @@ function createTaskElement(task) {
     checklist.classList.add('checklist');
 
     task.checkList.forEach((item, index) => {
-        const listItem = createChecklistItem(item, task, index);
+        const listItem = createChecklistItem(item, task, index, taskElement);
         checklist.appendChild(listItem);
     });
 
     const addSubtaskButton = document.createElement('button');
     addSubtaskButton.classList.add('add-subtask-button');
     addSubtaskButton.textContent = 'Add Subtask';
-    addSubtaskButton.style.marginTop = '0'
-    addSubtaskButton.style.marginBottom = '15px'
+    addSubtaskButton.style.marginTop = '0';
+    addSubtaskButton.style.marginBottom = '15px';
 
     addSubtaskButton.addEventListener('click', () => {
         const newSubtaskInput = document.createElement('input');
         newSubtaskInput.type = 'text';
         newSubtaskInput.placeholder = 'Subtask Name';
+        
         const saveSubtaskButton = document.createElement('button');
         saveSubtaskButton.textContent = 'Save';
+        
         saveSubtaskButton.addEventListener('click', () => {
             if (newSubtaskInput.value) {
                 task.addItemToCheckList(newSubtaskInput.value);
-                const newSubtaskItem = createChecklistItem(newSubtaskInput.value, task, task.checkList.length - 1);
+                const newSubtaskItem = createChecklistItem(newSubtaskInput.value, task, task.checkList.length - 1, taskElement);
                 checklist.appendChild(newSubtaskItem);
                 makeTasksDraggable(); // Reapply draggable functionality
                 newSubtaskInput.remove();
                 saveSubtaskButton.remove();
             }
         });
-
+    
         taskElement.appendChild(newSubtaskInput);
         taskElement.appendChild(saveSubtaskButton);
     });
+    
 
     taskElement.appendChild(taskTitleHeader);
-    taskTitleHeader.appendChild(taskTitleElement)
-    taskTitleHeader.appendChild(addSubtaskButton)
+    taskTitleHeader.appendChild(taskTitleElement);
+    taskTitleHeader.appendChild(addSubtaskButton);
     taskElement.appendChild(divider);
     taskElement.appendChild(checklist);
-    // taskElement.appendChild(addSubtaskButton);
 
     return taskElement;
 }
 
-function createChecklistItem(item, task, index) {
+
+function createChecklistItem(item, task, index, taskElement) {
     const listItem = document.createElement('li');
     listItem.className = 'subchecklist';
 
@@ -314,22 +331,26 @@ function createChecklistItem(item, task, index) {
 
     listItem.appendChild(container);
 
+    // Ensure that taskContent is properly updated
     const taskContent = document.createElement('span');
-    taskContent.textContent = item;
+    taskContent.textContent = item.name || item;  // Handle the case when item is a string or object
     listItem.appendChild(taskContent);
 
     checkbox.addEventListener('change', () => {
         if (checkbox.checked) {
             listItem.classList.add('completed');
             setTimeout(() => {
-                listItem.style.display = 'none';
-                task.removeItemFromCheckList(item);
+                task.completeSubtask(item.name || item);  // Handle both object and string cases
+                task.checkIfAllSubtasksCompleted(taskElement);
             }, 1000);
         }
     });
 
     return listItem;
 }
+
+
+
 
 function makeTaskDraggable(task) {
     task.draggable = true;
@@ -363,7 +384,6 @@ function makeTasksDraggable() { // Line 172
                 column.appendChild(dragging); // Line 186
                 dragging.classList.remove('dragging'); // Line 187
             } else { // Line 188
-                console.error("No element with class 'dragging' found"); // Line 189
             }
         });
     });

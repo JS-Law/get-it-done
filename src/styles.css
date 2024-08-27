@@ -133,6 +133,18 @@ body {
     color: whitesmoke;
 }
 
+.task-completed {
+    /* background-color: #d4edda;  */
+    margin-block: 1rem;
+    background-color: var(--black);
+    padding: 1rem;
+    border-radius: .4rem;
+    color: #155724; /* Dark green text color */
+    opacity: 0.7; /* Slightly fade the task */
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+
 .column-button{
     display: flex;
     align-items: center;
@@ -501,7 +513,7 @@ input[type="text"]:focus {
 
 .subchecklist.completed {
     text-decoration: line-through; /* Cross out the text */
-    opacity: 0; /* Fade out the element */
+    /* opacity: 0; Fade out the element */
     transition: opacity 2s ease-out; /* Smooth fade out */
 }
 .container {
@@ -582,4 +594,37 @@ input[type="checkbox"]:checked + .check svg polyline {
 
 .task-title{
     margin-block-end: 1rem;
+}
+
+.task-input-form {
+    display: flex;
+    align-content: space-between;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 1rem;
+    background-color: var(--black);
+    border-radius: .4rem;
+    margin-block-end: 1rem;
+}
+
+.task-input-form input {
+    background-color: var(--primary-color-light);
+    height: 1.65rem;
+    border: none;
+    border-radius: .2rem;
+    font-family: var(--primary-font);
+    color: whitesmoke;
+}
+.add-task-button{
+    display: flex;
+    align-items: center;
+    border: 0px;
+    /* max-block-size: 2rem; */
+    background-color: var(--primary-color);
+    border-radius: .3rem;
+    color: var(--secondary-color);
+    padding-right: 1rem;
+    padding-left: 1rem;
+    transition: 0.2s ease-in-out;
+    /* margin-inline: auto; */
 }

@@ -263,12 +263,16 @@ function createTaskElement(task) {
     addSubtaskButton.style.marginBottom = '15px';
 
     addSubtaskButton.addEventListener('click', () => {
+        const subTaskContainer = document.createElement('div');
+        subTaskContainer.classList.add('subtask-container');
+
         const newSubtaskInput = document.createElement('input');
         newSubtaskInput.type = 'text';
         newSubtaskInput.placeholder = 'Subtask Name';
-        
+
         const saveSubtaskButton = document.createElement('button');
         saveSubtaskButton.textContent = 'Save';
+        saveSubtaskButton.classList.add('subtask-button');
         
         saveSubtaskButton.addEventListener('click', () => {
             if (newSubtaskInput.value) {
@@ -281,8 +285,9 @@ function createTaskElement(task) {
             }
         });
     
-        taskElement.appendChild(newSubtaskInput);
-        taskElement.appendChild(saveSubtaskButton);
+        subTaskContainer.appendChild(newSubtaskInput)
+        subTaskContainer.appendChild(saveSubtaskButton)
+        taskElement.appendChild(subTaskContainer);
     });
     
 

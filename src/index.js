@@ -160,10 +160,10 @@ let testTask = new Task(
 );
 
 let testTaskTwo = new Task(
-    'Finish the thing 2',
+    'Finish the thing',
     getTimestamp(),
     getTimestamp(),
-    'low',
+    'medium',
     'Go to the place to do the thing, NOW',
     'Remember to do that thing',
     [
@@ -173,7 +173,7 @@ let testTaskTwo = new Task(
     'Not Started'
 );
 let testTaskThree = new Task(
-    'Finish the thing 2',
+    'Finish the thing AGAIN',
     getTimestamp(),
     getTimestamp(),
     'high',
@@ -186,7 +186,7 @@ let testTaskThree = new Task(
     'Not Started'
 );
 let testTaskFour = new Task(
-    'Finish the thing 2',
+    'Go back to the place',
     getTimestamp(),
     getTimestamp(),
     'high',

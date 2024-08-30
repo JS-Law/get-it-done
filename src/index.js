@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Get dirt',
         getTimestamp(),
         getTimestamp(),
-        'High',
+        'high',
         'Go to the place to do the thing, NOW',
         'Remember to do that thing',
         ['Go to place', 'Do that thing'],
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Finish the thing 2',
         getTimestamp(),
         getTimestamp(),
-        'Low',
+        'High',
         'Go to the place to do the thing, NOW',
         'Remember to do that thing',
         ['Go to place', 'Do that thing'],
@@ -93,9 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
     displayTasks(testProject);
     displayTasks(testProjectTwo);
 
-    // Set the first project as the default active project tab
-    switchToProjectTab(testProject);
+    // Automatically select the first project tab and make it active
+    const firstProject = document.querySelector('.tabs li');
+    if (firstProject) {
+        const firstProjectName = firstProject.getAttribute('data-project');
+        switchToProjectTab(new Project(firstProjectName, ''));
+    }
 });
+
+
+
 
 // Function to switch between project tabs
 function switchToProjectTab(project) {
@@ -105,10 +112,19 @@ function switchToProjectTab(project) {
         content.style.display = 'none';
     });
 
+    // Log the project name and the ID we're trying to select
+    console.log(`Switching to project tab: ${project.projectName}`);
+    console.log(`Looking for element with ID: content-${project.projectName.replace(/\s+/g, '_')}`);
+
     // Show the selected project content
-    const selectedProjectContent = document.querySelector(`#content-${project.projectName}`);
+    const selectedProjectContent = document.querySelector(`#content-${project.projectName.replace(/\s+/g, '_')}`);
+
+    console.log('Selected project content:', selectedProjectContent); // Log the element found
+
     if (selectedProjectContent) {
-        selectedProjectContent.style.display = 'block';
+        selectedProjectContent.style.display = 'flex';
+    } else {
+        console.error(`No element found with ID: content-${project.projectName}`);
     }
 
     // Update the active tab
@@ -125,6 +141,7 @@ function switchToProjectTab(project) {
 
 
 
+
 let testProject = new Project('Plant Garden', 'Dec 10th, 2024');
 let testProjectTwo = new Project('Finish Todo List', 'Dec 10th, 2024');
 
@@ -132,7 +149,7 @@ let testTask = new Task(
     'Get dirt',
     getTimestamp(),
     getTimestamp(),
-    'High',
+    'low',
     'Go to the place to do the thing, NOW',
     'Remember to do that thing',
     [
@@ -155,13 +172,39 @@ let testTaskTwo = new Task(
     ],
     'Not Started'
 );
+let testTaskThree = new Task(
+    'Finish the thing 2',
+    getTimestamp(),
+    getTimestamp(),
+    'high',
+    'Go to the place to do the thing, NOW',
+    'Remember to do that thing',
+    [
+        'Go to place',
+        'Do that thing', 
+    ],
+    'Not Started'
+);
+let testTaskFour = new Task(
+    'Finish the thing 2',
+    getTimestamp(),
+    getTimestamp(),
+    'high',
+    'Go to the place to do the thing, NOW',
+    'Remember to do that thing',
+    [
+        'Go to place',
+        'Do that thing', 
+    ],
+    'Not Started'
+);
 
 testProject.addNewTask(testTask);
 testProject.addNewTask(testTaskTwo);
 
 
-testProjectTwo.addNewTask(testTaskTwo)
-testProjectTwo.addNewTask(testTask)
+testProjectTwo.addNewTask(testTaskThree)
+testProjectTwo.addNewTask(testTaskFour)
 
 
 testTaskTwo.addItemToCheckList('something', 'else');

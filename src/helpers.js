@@ -1,3 +1,5 @@
+import { saveProjectsToLocalStorage } from ".";
+import { loadProjectsFromLocalStorage } from ".";
 class Project {
     #tasks; // Private field
 
@@ -56,7 +58,7 @@ function getTimestamp() {
 }
 
 class Task {
-    constructor(name, dueDate, dateCreated, priority, description = '', notes = '', checkList = [], status){
+    constructor(name, dueDate, dateCreated, priority, description = '', notes = '', checkList = [], status) {
         this.name = name;
         this.dueDate = dueDate;
         this.dateCreated = dateCreated;
@@ -67,11 +69,13 @@ class Task {
         this.status = status;
     }
 
-    addItemToCheckList(...itemsToAdd){
-        this.checkList.push(...itemsToAdd.map(item => ({ name: item, completed: false })));
+    addItemToCheckList(...itemsToAdd) {
+        itemsToAdd.forEach(item => {
+            this.checkList.push({ name: item, completed: false });
+        });
     }
-    
-    removeItemFromCheckList(itemToRemove){
+
+    removeItemFromCheckList(itemToRemove) {
         this.checkList = this.checkList.filter(item => item.name !== itemToRemove);
     }
 
@@ -79,33 +83,31 @@ class Task {
         const subtask = this.checkList.find(item => item.name === itemName);
         if (subtask) {
             subtask.completed = true;
-            this.checkIfAllSubtasksCompleted(); // Make sure taskElement is passed if needed
+            this.checkIfAllSubtasksCompleted();
         }
     }
-    
+
     checkIfAllSubtasksCompleted(taskElement) {
         const allCompleted = this.checkList.every(item => item.completed);
-        if (allCompleted && taskElement) { // Ensure taskElement is valid
+        if (allCompleted && taskElement) {
             this.setStatusComplete();
-            // taskElement.classList.remove('task')
             taskElement.classList.add('task-completed');
         }
     }
-    
-    
-    
-    setStatusComplete(){
+
+    setStatusComplete() {
         this.status = 'Complete';
     }
-    
-    setStatusInProgress(){
+
+    setStatusInProgress() {
         this.status = 'In Progress';
     }
 
-    setTaskPriority(taskPriority){
+    setTaskPriority(taskPriority) {
         this.priority = taskPriority;
     }
 }
+
 
 
 function displayTasks(project) {
@@ -162,31 +164,39 @@ function showTaskInputForm(column, priority, project) {
     taskNameInput.type = 'text';
     taskNameInput.placeholder = 'Task Name';
 
-    const taskDescInput = document.createElement('textarea');
-    taskDescInput.placeholder = 'Task Description';
-
     const addButton = document.createElement('button');
     addButton.textContent = 'Add Task';
     addButton.classList.add('add-task-button');
 
     addButton.addEventListener('click', () => {
         const taskName = taskNameInput.value;
-        const taskDescription = 'placeholder';
+        let projects = loadProjectsFromLocalStorage(); // Load existing projects
+    
         if (taskName) {
-            const newTask = new Task(taskName, getTimestamp(), getTimestamp(), priority, taskDescription, '', [], 'Not Started');
-            project.addNewTask(newTask);
+            const newTask = new Task(taskName, getTimestamp(), getTimestamp(), priority, '', '', [], 'Not Started');
+            project.addNewTask(newTask); // Add task to project
+    
             const taskElement = createTaskElement(newTask);
             makeTaskDraggable(taskElement);
             column.appendChild(taskElement);
+    
+            // Find the correct project in the projects array and update it
+            const updatedProjectIndex = projects.findIndex(p => p.projectName === project.projectName);
+            if (updatedProjectIndex !== -1) {
+                projects[updatedProjectIndex] = project;
+            }
+    
+            saveProjectsToLocalStorage(projects); // Update localStorage after adding the task
             form.remove();
         }
     });
+    
 
     form.appendChild(taskNameInput);
-    // form.appendChild(taskDescInput);
     form.appendChild(addButton);
     column.appendChild(form);
 }
+
 
 function createPriorityColumn(priority, title, project) {
     const column = document.createElement('div');
@@ -221,10 +231,11 @@ function createPriorityColumn(priority, title, project) {
     // Iterate over the tasks to add them to the column
     project.getTasks().forEach(task => {
         if (task.priority.toLowerCase() === priority.toLowerCase()) { // Case-insensitive comparison
-            const taskElement = createTaskElement(task);
+            const taskElement = createTaskElement(task, project);  // Pass project to createTaskElement
             column.appendChild(taskElement);
         }
     });
+
 
     return column;
 }
@@ -232,14 +243,17 @@ function createPriorityColumn(priority, title, project) {
 
 
 
-function createTaskElement(task) {
+function createTaskElement(task, project) {  // Ensure project is passed
+    console.log('Creating task element for task:', task);
+    console.log('Project object in createTaskElement:', project);
+
     const taskElement = document.createElement('div');
     taskElement.classList.add('task');
     
-    const taskTitleHeader = document.createElement('div')
-    taskTitleHeader.id = 'task-header-container'
-    taskTitleHeader.style.display = 'flex'
-    taskTitleHeader.style.justifyContent = 'space-between'
+    const taskTitleHeader = document.createElement('div');
+    taskTitleHeader.id = 'task-header-container';
+    taskTitleHeader.style.display = 'flex';
+    taskTitleHeader.style.justifyContent = 'space-between';
 
     const taskTitleElement = document.createElement('h3');
     taskTitleElement.textContent = task.name;
@@ -252,7 +266,7 @@ function createTaskElement(task) {
     checklist.classList.add('checklist');
 
     task.checkList.forEach((item, index) => {
-        const listItem = createChecklistItem(item, task, index, taskElement);
+        const listItem = createChecklistItem(item, task, index, taskElement, project);  // Pass project
         checklist.appendChild(listItem);
     });
 
@@ -273,23 +287,35 @@ function createTaskElement(task) {
         const saveSubtaskButton = document.createElement('button');
         saveSubtaskButton.textContent = 'Save';
         saveSubtaskButton.classList.add('subtask-button');
-        
+
         saveSubtaskButton.addEventListener('click', () => {
             if (newSubtaskInput.value) {
                 task.addItemToCheckList(newSubtaskInput.value);
-                const newSubtaskItem = createChecklistItem(newSubtaskInput.value, task, task.checkList.length - 1, taskElement);
+                const newSubtaskItem = createChecklistItem(newSubtaskInput.value, task, task.checkList.length - 1, taskElement, project);
                 checklist.appendChild(newSubtaskItem);
                 makeTasksDraggable(); // Reapply draggable functionality
+
+                // Persist changes
+                let projects = loadProjectsFromLocalStorage();
+                if (projects) {
+                    const updatedProjectIndex = projects.findIndex(p => p.projectName === project.projectName);
+                    if (updatedProjectIndex !== -1) {
+                        projects[updatedProjectIndex] = project;
+                        saveProjectsToLocalStorage(projects);
+                    } else {
+                        console.error('Project not found for update:', project.projectName);
+                    }
+                }
+                
                 newSubtaskInput.remove();
                 saveSubtaskButton.remove();
             }
         });
-    
-        subTaskContainer.appendChild(newSubtaskInput)
-        subTaskContainer.appendChild(saveSubtaskButton)
+
+        subTaskContainer.appendChild(newSubtaskInput);
+        subTaskContainer.appendChild(saveSubtaskButton);
         taskElement.appendChild(subTaskContainer);
     });
-    
 
     taskElement.appendChild(taskTitleHeader);
     taskTitleHeader.appendChild(taskTitleElement);
@@ -301,7 +327,9 @@ function createTaskElement(task) {
 }
 
 
-function createChecklistItem(item, task, index, taskElement) {
+
+
+function createChecklistItem(item, task, index, taskElement, project) {
     const listItem = document.createElement('li');
     listItem.className = 'subchecklist';
 
@@ -336,23 +364,36 @@ function createChecklistItem(item, task, index, taskElement) {
 
     listItem.appendChild(container);
 
-    // Ensure that taskContent is properly updated
     const taskContent = document.createElement('span');
-    taskContent.textContent = item.name || item;  // Handle the case when item is a string or object
+    taskContent.textContent = item.name || item;
     listItem.appendChild(taskContent);
 
     checkbox.addEventListener('change', () => {
         if (checkbox.checked) {
             listItem.classList.add('completed');
             setTimeout(() => {
-                task.completeSubtask(item.name || item);  // Handle both object and string cases
+                task.completeSubtask(item.name || item);
                 task.checkIfAllSubtasksCompleted(taskElement);
+
+                let projects = loadProjectsFromLocalStorage();
+                if (projects) {
+                    const updatedProjectIndex = projects.findIndex(p => p.projectName === project.projectName);
+                    if (updatedProjectIndex !== -1) {
+                        projects[updatedProjectIndex] = project;
+                        saveProjectsToLocalStorage(projects);
+                    } else {
+                        console.error('Project not found for update:', project.projectName);
+                    }
+                }
             }, 1000);
         }
     });
 
     return listItem;
 }
+
+
+
 
 
 
@@ -414,18 +455,18 @@ function switchToProjectTab(project) {
     });
 
     // Log the project name and the ID we're trying to select
-    console.log(`Switching to project tab: ${project.projectName}`);
-    console.log(`Looking for element with ID: content-${project.projectName}`);
+    // console.log(`Switching to project tab: ${project.projectName}`);
+    // console.log(`Looking for element with ID: content-${project.projectName}`);
 
     // Show the selected project content
     const selectedProjectContent = document.querySelector(`#content-${project.projectName.replace(/\s+/g, '_')}`);
 
-    console.log('Selected project content:', selectedProjectContent); // Log the element found
+    // console.log('Selected project content:', selectedProjectContent); // Log the element found
 
     if (selectedProjectContent) {
         selectedProjectContent.style.display = 'flex';
     } else {
-        console.error(`No element found with ID: content-${project.projectName}`);
+        // console.error(`No element found with ID: content-${project.projectName}`);
     }
 
     // Update the active tab

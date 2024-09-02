@@ -9,10 +9,60 @@ import { getTimestamp } from "./helpers";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
-
+export {
+    saveProjectsToLocalStorage,
+    loadProjectsFromLocalStorage
+}
 // import { Project, Task, displayTasks, getTimestamp } from "./helpers";
 // import flatpickr from "flatpickr";
 // import "flatpickr/dist/flatpickr.min.css";
+
+// Function to save projects to localStorage
+function saveProjectsToLocalStorage(projects) {
+    const projectsData = projects.map(project => ({
+        projectName: project.projectName,
+        dueDate: project.dueDate,
+        status: project.status,
+        tasks: project.getTasks().map(task => ({
+            name: task.name,
+            dueDate: task.dueDate,
+            dateCreated: task.dateCreated,
+            priority: task.priority,
+            description: task.description,
+            notes: task.notes,
+            checkList: task.checkList,  // Already has subtask data
+            status: task.status
+        }))
+    }));
+
+    localStorage.setItem('projects', JSON.stringify(projectsData));
+}
+
+
+
+// Function to load projects from localStorage
+function loadProjectsFromLocalStorage() {
+    const projectsData = JSON.parse(localStorage.getItem('projects')) || [];
+    const projects = projectsData.map(projectData => {
+        const project = new Project(projectData.projectName, projectData.dueDate, projectData.status);
+        projectData.tasks.forEach(taskData => {
+            const task = new Task(
+                taskData.name,
+                taskData.dueDate,
+                taskData.dateCreated,
+                taskData.priority,
+                taskData.description,
+                taskData.notes,
+                taskData.checkList.map(item => item.name),
+                taskData.status
+            );
+            project.addNewTask(task);
+        });
+        return project;
+    });
+    return projects;
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const contentContainer = document.querySelector('#main-content');
@@ -39,6 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
         dateFormat: 'M-d-Y',
     });
 
+    let projects = loadProjectsFromLocalStorage();
+
+    // Function to add a new project and save to localStorage
+    function addNewProject(projectName, dueDate) {
+        const newProject = new Project(projectName, dueDate);
+        projects.push(newProject);
+        displayTasks(newProject);
+        saveProjectsToLocalStorage(projects); // Save to localStorage
+    }
+
     addProjectButton.addEventListener('click', () => {
         projectFormContainer.classList.toggle('hidden');
     });
@@ -50,56 +110,61 @@ document.addEventListener('DOMContentLoaded', () => {
         const dueDate = projectDueDateInput.value;
 
         if (projectName && dueDate) {
-            const newProject = new Project(projectName, dueDate);
-            displayTasks(newProject);
+            addNewProject(projectName, dueDate);
             projectForm.reset();
             projectFormContainer.classList.add('hidden');
         }
     });
 
-    // Example projects and tasks for demonstration
-    let testProject = new Project('Plant Garden', 'Dec 10th, 2024');
-    let testProjectTwo = new Project('Finish Todo List', 'Dec 10th, 2024');
+    // Display projects from localStorage on load
+    if (projects.length > 0) {
+        projects.forEach(project => displayTasks(project));
+        switchToProjectTab(projects[0]); // Show the first project by default
+    } else {
+        // Example projects and tasks for demonstration (if localStorage is empty)
+        // let testProject = new Project('Plant Garden', 'Dec 10th, 2024');
+        // let testProjectTwo = new Project('Finish Todo List', 'Dec 10th, 2024');
 
-    let testTask = new Task(
-        'Get dirt',
-        getTimestamp(),
-        getTimestamp(),
-        'high',
-        'Go to the place to do the thing, NOW',
-        'Remember to do that thing',
-        ['Go to place', 'Do that thing'],
-        'Not Started'
-    );
+        // let testTask = new Task(
+        //     'Get dirt',
+        //     getTimestamp(),
+        //     getTimestamp(),
+        //     'High',
+        //     'Go to the place to do the thing, NOW',
+        //     'Remember to do that thing',
+        //     ['Go to place', 'Do that thing'],
+        //     'Not Started'
+        // );
 
-    let testTaskTwo = new Task(
-        'Finish the thing 2',
-        getTimestamp(),
-        getTimestamp(),
-        'High',
-        'Go to the place to do the thing, NOW',
-        'Remember to do that thing',
-        ['Go to place', 'Do that thing'],
-        'Not Started'
-    );
+        // let testTaskTwo = new Task(
+        //     'Finish the thing 2',
+        //     getTimestamp(),
+        //     getTimestamp(),
+        //     'Low',
+        //     'Go to the place to do the thing, NOW',
+        //     'Remember to do that thing',
+        //     ['Go to place', 'Do that thing'],
+        //     'Not Started'
+        // );
 
-    testProject.addNewTask(testTask);
-    testProject.addNewTask(testTaskTwo);
+        // testProject.addNewTask(testTask);
+        // testProject.addNewTask(testTaskTwo);
 
-    testProjectTwo.addNewTask(testTaskTwo);
-    testProjectTwo.addNewTask(testTask);
+        // testProjectTwo.addNewTask(testTaskTwo);
+        // testProjectTwo.addNewTask(testTask);
 
-    // Display the projects initially
-    displayTasks(testProject);
-    displayTasks(testProjectTwo);
+        // projects.push(testProject, testProjectTwo);
+        // saveProjectsToLocalStorage(projects);
 
-    // Automatically select the first project tab and make it active
-    const firstProject = document.querySelector('.tabs li');
-    if (firstProject) {
-        const firstProjectName = firstProject.getAttribute('data-project');
-        switchToProjectTab(new Project(firstProjectName, ''));
+        // // Display the projects initially
+        // displayTasks(testProject);
+        // displayTasks(testProjectTwo);
+
+        // Set the first project as the default active project tab
+        // switchToProjectTab(testProject);
     }
 });
+
 
 
 
@@ -142,73 +207,73 @@ function switchToProjectTab(project) {
 
 
 
-let testProject = new Project('Plant Garden', 'Dec 10th, 2024');
-let testProjectTwo = new Project('Finish Todo List', 'Dec 10th, 2024');
+// let testProject = new Project('Plant Garden', 'Dec 10th, 2024');
+// let testProjectTwo = new Project('Finish Todo List', 'Dec 10th, 2024');
 
-let testTask = new Task(
-    'Get dirt',
-    getTimestamp(),
-    getTimestamp(),
-    'low',
-    'Go to the place to do the thing, NOW',
-    'Remember to do that thing',
-    [
-        'Go to place',
-        'Do that thing', 
-    ],
-    'Not Started'
-);
+// let testTask = new Task(
+//     'Get dirt',
+//     getTimestamp(),
+//     getTimestamp(),
+//     'low',
+//     'Go to the place to do the thing, NOW',
+//     'Remember to do that thing',
+//     [
+//         'Go to place',
+//         'Do that thing', 
+//     ],
+//     'Not Started'
+// );
 
-let testTaskTwo = new Task(
-    'Finish the thing',
-    getTimestamp(),
-    getTimestamp(),
-    'medium',
-    'Go to the place to do the thing, NOW',
-    'Remember to do that thing',
-    [
-        'Go to place',
-        'Do that thing', 
-    ],
-    'Not Started'
-);
-let testTaskThree = new Task(
-    'Finish the thing AGAIN',
-    getTimestamp(),
-    getTimestamp(),
-    'high',
-    'Go to the place to do the thing, NOW',
-    'Remember to do that thing',
-    [
-        'Go to place',
-        'Do that thing', 
-    ],
-    'Not Started'
-);
-let testTaskFour = new Task(
-    'Go back to the place',
-    getTimestamp(),
-    getTimestamp(),
-    'high',
-    'Go to the place to do the thing, NOW',
-    'Remember to do that thing',
-    [
-        'Go to place',
-        'Do that thing', 
-    ],
-    'Not Started'
-);
+// let testTaskTwo = new Task(
+//     'Finish the thing',
+//     getTimestamp(),
+//     getTimestamp(),
+//     'medium',
+//     'Go to the place to do the thing, NOW',
+//     'Remember to do that thing',
+//     [
+//         'Go to place',
+//         'Do that thing', 
+//     ],
+//     'Not Started'
+// );
+// let testTaskThree = new Task(
+//     'Finish the thing AGAIN',
+//     getTimestamp(),
+//     getTimestamp(),
+//     'high',
+//     'Go to the place to do the thing, NOW',
+//     'Remember to do that thing',
+//     [
+//         'Go to place',
+//         'Do that thing', 
+//     ],
+//     'Not Started'
+// );
+// let testTaskFour = new Task(
+//     'Go back to the place',
+//     getTimestamp(),
+//     getTimestamp(),
+//     'high',
+//     'Go to the place to do the thing, NOW',
+//     'Remember to do that thing',
+//     [
+//         'Go to place',
+//         'Do that thing', 
+//     ],
+//     'Not Started'
+// );
 
-testProject.addNewTask(testTask);
-testProject.addNewTask(testTaskTwo);
-
-
-testProjectTwo.addNewTask(testTaskThree)
-testProjectTwo.addNewTask(testTaskFour)
+// testProject.addNewTask(testTask);
+// testProject.addNewTask(testTaskTwo);
 
 
-testTaskTwo.addItemToCheckList('something', 'else');
-displayTasks(testProjectTwo)
-displayTasks(testProject)
-displayTasks(testProject)
-displayTasks(testProject)
+// testProjectTwo.addNewTask(testTaskThree)
+// testProjectTwo.addNewTask(testTaskFour)
+
+
+// testTaskTwo.addItemToCheckList('something', 'else');
+// displayTasks(testProjectTwo)
+// displayTasks(testProject)
+// displayTasks(testProject)
+// displayTasks(testProject)

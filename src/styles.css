@@ -87,6 +87,11 @@ body {
 #project-section {
     background-color: var(--primary-color);
     border-radius: .3rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;  /* Add this */
+    padding: 0;    /* Remove padding */
 }
 
 .button {
@@ -495,11 +500,29 @@ input[type="text"]:focus {
     margin-block-end: 1rem;
 }
 
+.project-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;  /* Add this */
+    gap: 0;        /* Remove gap */
+    padding: 0;    /* Remove padding */
+}
+
 .column {
-    border: 1px solid var(--primary-color-light);
-    padding: 1rem;
+    flex: 1;
     background-color: var(--primary-color);
-    border-radius: .3rem;
+    border: none;
+    border-right: 1px solid var(--primary-color-light);
+    border-radius: 0;
+    padding: 1rem;
+    margin: 0;
+    min-width: 250px;
+}
+
+/* Add this to remove border from last column */
+.column:last-child {
+    border-right: none;
 }
 
 .checklist{

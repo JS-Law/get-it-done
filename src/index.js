@@ -79,6 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let projectSection = document.querySelector('#project-section');
     projectSection.style.display = 'flex';
+    projectSection.style.width = '100%';
+    projectSection.style.padding = '1rem';
+    projectSection.style.flexDirection = 'column';
+    projectSection.style.gap = '1rem';
 
     const addProjectButton = document.getElementById('add-project-button');
     const projectFormContainer = document.getElementById('project-form-container');
@@ -95,7 +99,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function addNewProject(projectName, dueDate) {
         const newProject = new Project(projectName, dueDate);
         projects.push(newProject);
+        
+        // Hide all project contents before displaying the new project
+        const allProjectContents = document.querySelectorAll('.project-content');
+        allProjectContents.forEach(content => {
+            content.style.display = 'none';
+        });
+        
         displayTasks(newProject);
+        
+        // Switch to the new project tab to ensure only its content is visible
+        switchToProjectTab(newProject);
+        
         saveProjectsToLocalStorage(projects); // Save to localStorage
     }
 
@@ -188,6 +203,10 @@ function switchToProjectTab(project) {
 
     if (selectedProjectContent) {
         selectedProjectContent.style.display = 'flex';
+        selectedProjectContent.style.flexDirection = 'row';
+        selectedProjectContent.style.justifyContent = 'space-between';
+        selectedProjectContent.style.gap = '1rem';
+        selectedProjectContent.style.width = '100%';
     } else {
         console.error(`No element found with ID: content-${project.projectName}`);
     }

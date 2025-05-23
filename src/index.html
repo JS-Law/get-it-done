@@ -1,66 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-    <title>Check Off</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+  <title>Check Off</title>
 
 </head>
+
 <body>
-    <header id="header">
-        <navbar id="nav-bar">
-            <!-- <icon class="material-icons">stepper</icon> -->
-            <h1 id="site-title">Lasso</h1>
-            <!-- <div id="nav-icons">
+  <header id="header">
+    <navbar id="nav-bar">
+      <!-- <icon class="material-icons">stepper</icon> -->
+      <h1 id="site-title">Lasso</h1>
+      <!-- <div id="nav-icons">
                 <icon class="material-icons">menu</icon>
                 <icon class="material-icons">logout</icon>
                 <icon class="material-icons">settings</icon>
             </div> -->
-        </navbar>
-    </header>
-    <ul class="tabs group">
-        <!-- <li class="active"><a href="#one">Finish Todo List</a></li>  -->
-        <!-- <li><a href="#two">Two</a></li>  -->
-        <!-- <li><a href="#three">Three</a></li> -->
-        <!-- <li><a href="#three">Four</a></li>  -->
-    </ul>
-    <content id="main-content">
-        <section id="side-bar">
-            <div id="create-new-project">
-                <!-- <icon class="material-icons">add</icon> -->
-                <button class="button" id="add-project-button"><icon class="material-icons">add</icon>Add New Project</button>
-                <!-- <button class="button" id="display-project-button"><icon class="material-icons">lists</icon>Select Project</button> -->
-                <!-- <button class="button" id="display-all-tasks"><icon class="material-icons">lists</icon>View All Tasks</button> -->
-            </div>
-        </section>
-        <section id="project-section"></section>
-        <div id="project-form-container" class="hidden">
-            <form id="project-form">
-                <div id="name-section">
-                    <label for="project-name">Project Name:</label>
-                    <input type="text" id="project-name" name="project-name" required>
-                </div>
-                <div id="due-date-section">
-                    <input type="date" id="project-due-date" name="project-due-date" required>
-                    <label for="project-due-date">Due Date</label>
-                </div>
-                
-                <button id="form-submit-button" type="submit"><icon class="material-icons">add</icon>Add Project</button>
-            </form>
-        </div>        
-    </content>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script>
-        $(function() {
-            $("#project-tabs li").click(function(e) { // Target only the list items inside #project-tabs
-                e.preventDefault();
-                $("#project-tabs li").removeClass("active"); // Remove active class only from project tabs
-                $(this).addClass("active"); // Add active class to the clicked tab
-            });
-        });
-	</script>
+    </navbar>
+  </header>
+  <ul class="tabs group">
+    <!-- <li class="active"><a href="#one">Finish Todo List</a></li>  -->
+    <!-- <li><a href="#two">Two</a></li>  -->
+    <!-- <li><a href="#three">Three</a></li> -->
+    <!-- <li><a href="#three">Four</a></li>  -->
+  </ul>
+  <content id="main-content">
+    <section id="side-bar">
+      <div id="create-new-project">
+        <!-- <icon class="material-icons">add</icon> -->
+        <button class="button" id="add-project-button">
+          <icon class="material-icons">add</icon>Add New Project
+        </button>
+        <!-- <button class="button" id="display-project-button"><icon class="material-icons">lists</icon>Select Project</button> -->
+        <!-- <button class="button" id="display-all-tasks"><icon class="material-icons">lists</icon>View All Tasks</button> -->
+      </div>
+    </section>
+    <section id="project-section"></section>
+    <div id="project-form-container" class="hidden">
+      <form id="project-form">
+        <div id="name-section">
+          <label for="project-name">Project Name:</label>
+          <input type="text" id="project-name" name="project-name" required>
+        </div>
+        <div id="due-date-section">
+          <label for="project-due-date">Due Date</label>
+          <input type="date" id="project-due-date" name="project-due-date" required>
+        </div>
+
+        <button id="form-submit-button" type="submit">
+          <icon class="material-icons">add</icon>Add Project
+        </button>
+      </form>
+    </div>
+  </content>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>
+    $(function () {
+      $("#project-tabs li").click(function (e) { // Target only the list items inside #project-tabs
+        e.preventDefault();
+        $("#project-tabs li").removeClass("active"); // Remove active class only from project tabs
+        $(this).addClass("active"); // Add active class to the clicked tab
+      });
+    });
+  </script>
 </body>
+
 </html>
